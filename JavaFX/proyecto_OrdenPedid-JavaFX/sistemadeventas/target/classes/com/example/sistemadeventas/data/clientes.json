@@ -1,9 +1,10 @@
 [ {
-  "cedulaRUC" : "1000",
-  "nombres" : "1000",
-  "apellidos" : "1000",
-  "correo" : "1000",
-  "direccion" : "1000",
-  "telefono" : "1000",
-  "codigoCliente" : "1000_1705160592817"
+  "cedulaRUC" : "123",
+  "nombres" : "qweewqeeqweq",
+  "apellidos" : "wqewqe",
+  "correo" : "wqeqwewqe",
+  "direccion" : "eqweqwe",
+  "telefono" : "weqewq",
+  "codigoCliente" : "123_0.4946224288816271",
+  "personaContacto" : "Persona de Contacto"
 } ]

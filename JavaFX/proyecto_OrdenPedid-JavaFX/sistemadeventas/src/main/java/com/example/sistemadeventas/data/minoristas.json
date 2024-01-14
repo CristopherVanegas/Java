@@ -1,10 +1,19 @@
 [ {
-  "cedulaRUC" : "123",
-  "nombres" : "123",
-  "apellidos" : "123",
-  "correo" : "123",
-  "direccion" : "123",
-  "telefono" : "123",
-  "codigoCliente" : "123_0.5610336995220837",
+  "cedulaRUC" : "sdgdsag",
+  "nombres" : "131",
+  "apellidos" : "13123",
+  "correo" : "131233",
+  "direccion" : "3123123",
+  "telefono" : "313213",
+  "codigoCliente" : "sdgdsag_0.8640801653725565",
+  "numeroCompras" : 0
+}, {
+  "cedulaRUC" : "sdgdsag",
+  "nombres" : "131",
+  "apellidos" : "13123",
+  "correo" : "131233",
+  "direccion" : "3123123",
+  "telefono" : "313213",
+  "codigoCliente" : "sdgdsag_0.8640801653725565",
   "numeroCompras" : 0
 } ]
