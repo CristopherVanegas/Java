@@ -1,10 +1,9 @@
 [ {
-  "cedulaRUC" : "123",
-  "nombres" : "qweewqeeqweq",
-  "apellidos" : "wqewqe",
-  "correo" : "wqeqwewqe",
-  "direccion" : "eqweqwe",
-  "telefono" : "weqewq",
-  "codigoCliente" : "123_0.4946224288816271",
-  "personaContacto" : "Persona de Contacto"
+  "cedulaRUC" : "000000",
+  "nombres" : "3414311121",
+  "apellidos" : "1313",
+  "correo" : "123213",
+  "direccion" : "2312321",
+  "telefono" : "2131231",
+  "codigoCliente" : "000000_0.5869659850036684"
 } ]

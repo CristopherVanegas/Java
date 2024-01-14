@@ -1,19 +1,10 @@
 [ {
-  "cedulaRUC" : "123",
-  "nombres" : "qweewqeeqweq",
-  "apellidos" : "wqewqe",
-  "correo" : "wqeqwewqe",
-  "direccion" : "eqweqwe",
-  "telefono" : "weqewq",
-  "codigoCliente" : "123_0.4946224288816271",
-  "personaContacto" : "Persona de Contacto"
-}, {
-  "cedulaRUC" : "123",
-  "nombres" : "qweewqeeqweq",
-  "apellidos" : "wqewqe",
-  "correo" : "wqeqwewqe",
-  "direccion" : "eqweqwe",
-  "telefono" : "weqewq",
-  "codigoCliente" : "123_0.4946224288816271",
+  "cedulaRUC" : "11111",
+  "nombres" : "31231",
+  "apellidos" : "23123123123123",
+  "correo" : "123123123",
+  "direccion" : "1313213",
+  "telefono" : "1231232131",
+  "codigoCliente" : "11111_0.22783307089128024",
   "personaContacto" : "Persona de Contacto"
 } ]

@@ -91,38 +91,24 @@ public class RegisterController {
             String tipoCliente = minoristaRadio.isSelected() ? "Minorista" : "Mayorista";
 
             // Crear objeto Cliente, ClienteMayorista o ClienteMinorista según el tipo
-            Cliente clienteGeneral;
-            if ("Mayorista".equals(tipoCliente)) {
-                ClienteMayorista mayorista = new ClienteMayorista(cedulaRUC, nombres, apellidos, correo, direccion,
-                        telefono, "Persona de Contacto");
-                listaMayoristas.add(mayorista);
-                clienteGeneral = mayorista;
-            } else {
-                ClienteMinorista minorista = new ClienteMinorista(cedulaRUC, nombres, apellidos, correo, direccion,
-                        telefono, 0);
-                listaMinoristas.add(minorista);
-                clienteGeneral = minorista;
-            }
-
-            // Agregar el nuevo cliente a la lista general
+            Cliente clienteGeneral = new Cliente(cedulaRUC, nombres, apellidos, correo, direccion, telefono);
             listaClientes.add(clienteGeneral);
 
             // Agregar el nuevo cliente a la lista específica (minoristas o mayoristas)
             if ("Mayorista".equals(tipoCliente)) {
-                listaMayoristas.add((ClienteMayorista) clienteGeneral);
+                ClienteMayorista mayorista = new ClienteMayorista(cedulaRUC, nombres, apellidos, correo, direccion,
+                        telefono, "Persona de Contacto");
+                listaMayoristas.add(mayorista);
+                guardarClienteEnArchivo(MAYORISTAS_JSON_PATH, listaMayoristas);
             } else {
-                listaMinoristas.add((ClienteMinorista) clienteGeneral);
-            }
-
-            // Guardar en el archivo correspondiente (lista específica)
-            if ("Mayorista".equals(tipoCliente)) {
-                guardarClienteEnArchivo(clienteGeneral, MAYORISTAS_JSON_PATH, listaMayoristas);
-            } else {
-                guardarClienteEnArchivo(clienteGeneral, MINORISTAS_JSON_PATH, listaMinoristas);
+                ClienteMinorista minorista = new ClienteMinorista(cedulaRUC, nombres, apellidos, correo, direccion,
+                        telefono, 0);
+                listaMinoristas.add(minorista);
+                guardarClienteEnArchivo(MINORISTAS_JSON_PATH, listaMinoristas);
             }
 
             // Guardar en el archivo de clientes generales
-            guardarClienteEnArchivo(clienteGeneral, CLIENTES_JSON_PATH, listaClientes);
+            guardarClienteEnArchivo(CLIENTES_JSON_PATH, listaClientes);
 
             System.out.println("Cliente registrado con éxito");
 
@@ -136,22 +122,6 @@ public class RegisterController {
     @FXML
     private void handleCancel() throws IOException {
         App.setRoot("login");
-    }
-
-    private <T> void guardarClienteEnArchivo(Cliente cliente, String filePath, List<T> listaClientes) {
-        // Método para guardar el cliente en el archivo
-        try {
-            File file = new File(filePath);
-
-            // Guarda la lista específica en el archivo
-            ObjectMapper objectMapper = new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);
-            objectMapper.writeValue(file, listaClientes);
-
-            System.out.println("Guardado con éxito en la ruta: " + filePath);
-        } catch (IOException e) {
-            System.err.println("Error al guardar el archivo: " + filePath);
-            e.printStackTrace();
-        }
     }
 
     private <T> List<T> leerClientesDesdeArchivo(String filePath, Class<T> type) {
@@ -183,6 +153,28 @@ public class RegisterController {
         return clientes;
     }
 
+    @FXML
+    private <T> void guardarClienteEnArchivo(String filePath, List<T> listaClientes) {
+        // Método para guardar la lista en el archivo
+        try {
+            File file = new File(filePath);
+
+            // Si el archivo no existe, intenta crearlo
+            if (!file.exists()) {
+                file.createNewFile();
+            }
+
+            // Guarda la lista actualizada en el archivo
+            ObjectMapper objectMapper = new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);
+            objectMapper.writeValue(file, listaClientes);
+
+            System.out.println("Guardado con éxito en la ruta: " + filePath);
+        } catch (IOException e) {
+            System.err.println("Error al guardar el archivo: " + filePath);
+            e.printStackTrace();
+        }
+    }
+
     private boolean camposLlenos() {
         return !cedulaRUCField.getText().isEmpty()
                 && !nombresField.getText().isEmpty()
@@ -201,7 +193,9 @@ public class RegisterController {
     }
 
     private boolean clienteYaExiste(String cedulaRUC) {
-        // Verificar si el cliente ya existe en la lista general
-        return listaClientes.stream().anyMatch(cliente -> cliente.getCedulaRUC().equals(cedulaRUC));
+        // Verificar si el cliente ya existe en alguna de las listas
+        return listaClientes.stream().anyMatch(cliente -> cliente.getCedulaRUC().equals(cedulaRUC))
+                || listaMinoristas.stream().anyMatch(cliente -> cliente.getCedulaRUC().equals(cedulaRUC))
+                || listaMayoristas.stream().anyMatch(cliente -> cliente.getCedulaRUC().equals(cedulaRUC));
     }
 }
