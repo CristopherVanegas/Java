@@ -8,3 +8,8 @@
 logs/*.log
 
 # Ignorar la carpeta de imágenes
+
+
+# Ignorar los DS_Store
+.DS_Store
+
