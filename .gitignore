@@ -1,1 +1,10 @@
-*./DS_STORE
+# Ignorar archivos temporales
+*~
+
+# Ignorar archivos de respaldo
+*.bak
+
+# Ignorar todos los archivos con extensión .log en la carpeta logs
+logs/*.log
+
+# Ignorar la carpeta de imágenes
