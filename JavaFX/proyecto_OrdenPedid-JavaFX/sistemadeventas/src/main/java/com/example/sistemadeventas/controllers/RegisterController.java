@@ -6,7 +6,6 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,12 +14,8 @@ import com.example.sistemadeventas.models.Cliente;
 import com.example.sistemadeventas.models.ClienteMayorista;
 import com.example.sistemadeventas.models.ClienteMinorista;
 import com.example.sistemadeventas.view.App;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.databind.type.CollectionType;
 
 public class RegisterController {
-
     @FXML
     private TextField cedulaRUCField;
 
@@ -55,9 +50,13 @@ public class RegisterController {
     private List<ClienteMinorista> listaMinoristas = new ArrayList<>();
     private List<ClienteMayorista> listaMayoristas = new ArrayList<>();
 
-    private static final String CLIENTES_JSON_PATH = "sistemadeventas/src/main/java/com/example/sistemadeventas/data/clientes.json";
-    private static final String MAYORISTAS_JSON_PATH = "sistemadeventas/src/main/java/com/example/sistemadeventas/data/mayoristas.json";
-    private static final String MINORISTAS_JSON_PATH = "sistemadeventas/src/main/java/com/example/sistemadeventas/data/minoristas.json";
+    private static final String CLIENTES_JSON_PATH = "clientes.json";
+    private static final String MAYORISTAS_JSON_PATH = "mayoristas.json";
+    private static final String MINORISTAS_JSON_PATH = "minoristas.json";
+
+    private JsonManagerController ClientesJsonManagerController = new JsonManagerController(CLIENTES_JSON_PATH);
+    private JsonManagerController MayoristasJsonManagerController = new JsonManagerController(MAYORISTAS_JSON_PATH);
+    private JsonManagerController MinoristasJsonManagerController = new JsonManagerController(MINORISTAS_JSON_PATH);
 
     @FXML
     private void initialize() {
@@ -66,9 +65,7 @@ public class RegisterController {
         mayoristaRadio.setToggleGroup(tipoClienteToggleGroup);
 
         // Leer datos existentes de los archivos y cargar las listas
-        listaClientes = leerClientesDesdeArchivo(CLIENTES_JSON_PATH, Cliente.class);
-        listaMinoristas = leerClientesDesdeArchivo(MINORISTAS_JSON_PATH, ClienteMinorista.class);
-        listaMayoristas = leerClientesDesdeArchivo(MAYORISTAS_JSON_PATH, ClienteMayorista.class);
+        cargarDatosDesdeArchivo();
     }
 
     @FXML
@@ -82,34 +79,33 @@ public class RegisterController {
                 return;
             }
 
+            // Obtiene los datos ddl edtTexts
             String nombres = nombresField.getText();
             String apellidos = apellidosField.getText();
             String correo = correoField.getText();
             String direccion = direccionField.getText();
             String telefono = telefonoField.getText();
-
             String tipoCliente = minoristaRadio.isSelected() ? "Minorista" : "Mayorista";
 
             // Crear objeto Cliente, ClienteMayorista o ClienteMinorista según el tipo
             Cliente clienteGeneral = new Cliente(cedulaRUC, nombres, apellidos, correo, direccion, telefono);
             listaClientes.add(clienteGeneral);
+            ClientesJsonManagerController.guardarClientes(listaClientes);
 
             // Agregar el nuevo cliente a la lista específica (minoristas o mayoristas)
             if ("Mayorista".equals(tipoCliente)) {
                 ClienteMayorista mayorista = new ClienteMayorista(cedulaRUC, nombres, apellidos, correo, direccion,
                         telefono, "Persona de Contacto");
                 listaMayoristas.add(mayorista);
-                guardarClienteEnArchivo(MAYORISTAS_JSON_PATH, listaMayoristas);
+                MayoristasJsonManagerController.guardarMayoristas(listaMayoristas);
             } else {
                 ClienteMinorista minorista = new ClienteMinorista(cedulaRUC, nombres, apellidos, correo, direccion,
                         telefono, 0);
                 listaMinoristas.add(minorista);
-                guardarClienteEnArchivo(MINORISTAS_JSON_PATH, listaMinoristas);
+                MinoristasJsonManagerController.guardarMinoristas(listaMinoristas);
             }
 
-            // Guardar en el archivo de clientes generales
-            guardarClienteEnArchivo(CLIENTES_JSON_PATH, listaClientes);
-
+            
             System.out.println("Cliente registrado con éxito");
 
             // Cambiar a la vista de inicio de sesión
@@ -124,55 +120,20 @@ public class RegisterController {
         App.setRoot("login");
     }
 
-    private <T> List<T> leerClientesDesdeArchivo(String filePath, Class<T> type) {
-        // Método para leer clientes desde el archivo
-        List<T> clientes = new ArrayList<>();
+    private void cargarDatosDesdeArchivo() {
+        listaClientes = ClientesJsonManagerController.cargarClientes();
+        listaMayoristas = MayoristasJsonManagerController.cargarClienteMayorista();
+        listaMinoristas = MinoristasJsonManagerController.cargarClienteMinorista();
 
-        try {
-            File file = new File(filePath);
+        // Imprimir los datos cargados por consola
+        System.out.println("Datos cargados desde CLIENTES_JSON_PATH:");
+        listaClientes.forEach(System.out::println);
 
-            // Verifica si el archivo existe antes de intentar leerlo
-            if (file.exists()) {
-                ObjectMapper objectMapper = new ObjectMapper();
+        System.out.println("\nDatos cargados desde MINORISTAS_JSON_PATH:");
+        listaMinoristas.forEach(System.out::println);
 
-                // Lee la lista de clientes desde el archivo
-                CollectionType collectionType = objectMapper.getTypeFactory().constructCollectionType(List.class, type);
-                clientes = objectMapper.readValue(file, collectionType);
-
-                System.out.println("Leído con éxito desde el archivo: " + filePath);
-                System.out.println("Lista de clientes leídos:");
-                clientes.forEach(System.out::println);
-            } else {
-                System.out.println("Archivo no encontrado: " + filePath);
-            }
-        } catch (IOException e) {
-            System.err.println("Error al leer el archivo: " + filePath);
-            e.printStackTrace();
-        }
-
-        return clientes;
-    }
-
-    @FXML
-    private <T> void guardarClienteEnArchivo(String filePath, List<T> listaClientes) {
-        // Método para guardar la lista en el archivo
-        try {
-            File file = new File(filePath);
-
-            // Si el archivo no existe, intenta crearlo
-            if (!file.exists()) {
-                file.createNewFile();
-            }
-
-            // Guarda la lista actualizada en el archivo
-            ObjectMapper objectMapper = new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);
-            objectMapper.writeValue(file, listaClientes);
-
-            System.out.println("Guardado con éxito en la ruta: " + filePath);
-        } catch (IOException e) {
-            System.err.println("Error al guardar el archivo: " + filePath);
-            e.printStackTrace();
-        }
+        System.out.println("\nDatos cargados desde MAYORISTAS_JSON_PATH:");
+        listaMayoristas.forEach(System.out::println);
     }
 
     private boolean camposLlenos() {
