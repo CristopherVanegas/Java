@@ -1,9 +1,29 @@
-[ {
-  "cedulaRUC" : "457645876",
-  "nombres" : "457645876",
-  "apellidos" : "457645876",
-  "correo" : "457645876",
-  "direccion" : "457645876",
-  "telefono" : "457645876",
-  "codigoCliente" : "457645876_0.5294992979753383"
-} ]
+[
+    {
+        "cedulaRUC": "15",
+        "nombres": "15",
+        "apellidos": "15",
+        "correo": "15",
+        "direccion": "15",
+        "telefono": "15",
+        "codigoCliente": "15_0.003313991429072294"
+    },
+    {
+        "cedulaRUC": "11",
+        "nombres": "11",
+        "apellidos": "11",
+        "correo": "11",
+        "direccion": "11",
+        "telefono": "11",
+        "codigoCliente": "11_0.4483367302238772"
+    },
+    {
+        "cedulaRUC": "17",
+        "nombres": "17",
+        "apellidos": "17",
+        "correo": "17",
+        "direccion": "17",
+        "telefono": "17",
+        "codigoCliente": "17_0.3948863579718114"
+    }
+]

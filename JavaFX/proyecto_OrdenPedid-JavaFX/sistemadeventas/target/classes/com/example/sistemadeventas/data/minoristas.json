@@ -1,10 +1,22 @@
-[ {
-  "cedulaRUC" : "12312323",
-  "nombres" : "1231232",
-  "apellidos" : "2313",
-  "correo" : "31232131",
-  "direccion" : "31233",
-  "telefono" : "131232312",
-  "codigoCliente" : "12312323_0.712279136038245",
-  "numeroCompras" : 0
-} ]
+[
+    {
+        "cedulaRUC": "15",
+        "nombres": "15",
+        "apellidos": "15",
+        "correo": "15",
+        "direccion": "15",
+        "telefono": "15",
+        "codigoCliente": "15_0.22387875537878443",
+        "numeroCompras": 0
+    },
+    {
+        "cedulaRUC": "11",
+        "nombres": "11",
+        "apellidos": "11",
+        "correo": "11",
+        "direccion": "11",
+        "telefono": "11",
+        "codigoCliente": "11_0.7308898192887893",
+        "numeroCompras": 0
+    }
+]

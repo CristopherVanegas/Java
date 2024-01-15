@@ -1,10 +1,12 @@
-[ {
-  "cedulaRUC" : "457645876",
-  "nombres" : "457645876",
-  "apellidos" : "457645876",
-  "correo" : "457645876",
-  "direccion" : "457645876",
-  "telefono" : "457645876",
-  "codigoCliente" : "457645876_0.8063388345988858",
-  "personaContacto" : "Persona de Contacto"
-} ]
+[
+    {
+        "cedulaRUC": "17",
+        "nombres": "17",
+        "apellidos": "17",
+        "correo": "17",
+        "direccion": "17",
+        "telefono": "17",
+        "codigoCliente": "17_0.7069723479052291",
+        "personaContacto": "Persona de Contacto"
+    }
+]

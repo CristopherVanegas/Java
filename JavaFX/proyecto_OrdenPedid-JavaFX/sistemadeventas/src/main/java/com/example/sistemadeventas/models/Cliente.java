@@ -9,7 +9,7 @@ public class Cliente {
     private String telefono;
     private String codigoCliente; // Asignado de manera única
 
-    // Constructor
+    // Constructor con argumentos
     public Cliente(String cedulaRUC, String nombres, String apellidos, String correo, String direccion, String telefono) {
         this.cedulaRUC = cedulaRUC;
         this.nombres = nombres;
@@ -21,8 +21,12 @@ public class Cliente {
         this.codigoCliente = generarCodigoUnico(); 
     }
 
-    // Getters y setters para cada atributo
+    // Constructor sin argumentos
+    public Cliente() {
+        // Constructor sin argumentos
+    }
 
+    // Getters y setters para cada atributo
     public String getCedulaRUC() {
         return cedulaRUC;
     }
@@ -78,8 +82,6 @@ public class Cliente {
     public void setCodigoCliente(String codigoCliente) {
         this.codigoCliente = codigoCliente;
     }
-
-    // Otros métodos según necesidad
 
     private String generarCodigoUnico() {
         // Lógica para generar un código único (puedes implementarla según tu necesidad)
