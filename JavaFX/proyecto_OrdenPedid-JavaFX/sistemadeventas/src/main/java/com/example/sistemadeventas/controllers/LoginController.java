@@ -68,7 +68,7 @@ public class LoginController {
     private List<Cliente> cargarClientesDesdeJSON() {
         ObjectMapper objectMapper = new ObjectMapper();
         try {
-            File jsonFile = new File("src/main/java/com/example/sistemadeventas/data/clientes.json"); // Ruta al archivo
+            File jsonFile = new File("sistemadeventas\\src\\main\\java\\com\\example\\sistemadeventas\\data\\clientes.json"); // Ruta al archivo
                                                                                                       // JSON de
                                                                                                       // clientes
             if (jsonFile.exists()) {

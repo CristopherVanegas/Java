@@ -18,5 +18,35 @@
         "telefono": "11",
         "codigoCliente": "11_0.7308898192887893",
         "numeroCompras": 0
+    },
+    {
+        "cedulaRUC": "1",
+        "nombres": "1",
+        "apellidos": "1",
+        "correo": "1",
+        "direccion": "1",
+        "telefono": "1",
+        "codigoCliente": "1_0.8408475443219402",
+        "numeroCompras": 0
+    },
+    {
+        "cedulaRUC": "2",
+        "nombres": "2",
+        "apellidos": "2",
+        "correo": "2",
+        "direccion": "2",
+        "telefono": "2",
+        "codigoCliente": "2_0.4823242002973107",
+        "numeroCompras": 0
+    },
+    {
+        "cedulaRUC": "1000",
+        "nombres": "1",
+        "apellidos": "1",
+        "correo": "1",
+        "direccion": "1",
+        "telefono": "1",
+        "codigoCliente": "1000_0.0036997911913418946",
+        "numeroCompras": 0
     }
 ]

@@ -25,5 +25,41 @@
         "direccion": "17",
         "telefono": "17",
         "codigoCliente": "17_0.3948863579718114"
+    },
+    {
+        "cedulaRUC": "1",
+        "nombres": "1",
+        "apellidos": "1",
+        "correo": "1",
+        "direccion": "1",
+        "telefono": "1",
+        "codigoCliente": "1_0.27296866547411747"
+    },
+    {
+        "cedulaRUC": "2",
+        "nombres": "2",
+        "apellidos": "2",
+        "correo": "2",
+        "direccion": "2",
+        "telefono": "2",
+        "codigoCliente": "2_0.16308856976638297"
+    },
+    {
+        "cedulaRUC": "3",
+        "nombres": "3",
+        "apellidos": "3",
+        "correo": "3",
+        "direccion": "3",
+        "telefono": "3",
+        "codigoCliente": "3_0.9582161153140847"
+    },
+    {
+        "cedulaRUC": "1000",
+        "nombres": "1",
+        "apellidos": "1",
+        "correo": "1",
+        "direccion": "1",
+        "telefono": "1",
+        "codigoCliente": "1000_0.7303705822946792"
     }
 ]
