@@ -13,12 +13,17 @@ public abstract class JsonDeserializationCategoryAndProduct {
 
         try {
             // Deserializa categorías desde un archivo JSON
-            List<Categoria> categorias = objectMapper.readValue(new File("src/main/java/com/example/sistemadeventas/data/categorias.json"), objectMapper.getTypeFactory().constructCollectionType(List.class, Categoria.class));
+            List<Categoria> categorias = objectMapper.readValue(
+                    new File("sistemadeventas\\src\\main\\java\\com\\example\\sistemadeventas\\data\\categorias.json"),
+                    objectMapper.getTypeFactory().constructCollectionType(List.class, Categoria.class));
 
             // Deserializa productos desde un archivo JSON
-            List<Producto> productos = objectMapper.readValue(new File("src/main/java/com/example/sistemadeventas/data/productos.json"), objectMapper.getTypeFactory().constructCollectionType(List.class, Producto.class));
+            List<Producto> productos = objectMapper.readValue(
+                    new File("sistemadeventas\\src\\main\\java\\com\\example\\sistemadeventas\\data\\productos.json"),
+                    objectMapper.getTypeFactory().constructCollectionType(List.class, Producto.class));
 
-            // Ahora tienes tus listas de categorías y productos cargadas desde los archivos JSON
+            // Ahora tienes tus listas de categorías y productos cargadas desde los archivos
+            // JSON
             System.out.println("Categorías cargadas desde JSON:");
             for (Categoria categoria : categorias) {
                 System.out.println(categoria.getId() + " - " + categoria.getNombre());

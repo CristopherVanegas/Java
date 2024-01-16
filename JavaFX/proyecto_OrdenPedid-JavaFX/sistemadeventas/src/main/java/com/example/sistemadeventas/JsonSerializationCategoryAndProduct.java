@@ -1,4 +1,5 @@
 package com.example.sistemadeventas;
+
 import com.example.sistemadeventas.models.Categoria;
 import com.example.sistemadeventas.models.Producto;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -27,10 +28,14 @@ public class JsonSerializationCategoryAndProduct {
 
         try {
             // Serializa categorías a JSON y guárdalas en un archivo
-            objectMapper.writeValue(new File("src/main/java/com/example/sistemadeventas/data/categorias.json"), categorias);
+            objectMapper.writeValue(
+                    new File("sistemadeventas\\src\\main\\java\\com\\example\\sistemadeventas\\data\\categorias.json"),
+                    categorias);
 
             // Serializa productos a JSON y guárdalos en un archivo
-            objectMapper.writeValue(new File("src/main/java/com/example/sistemadeventas/data/productos.json"), productos);
+            objectMapper.writeValue(
+                    new File("sistemadeventas\\src\\main\\java\\com\\example\\sistemadeventas\\data\\productos.json"),
+                    productos);
 
             System.out.println("Datos guardados en archivos JSON.");
         } catch (IOException e) {
