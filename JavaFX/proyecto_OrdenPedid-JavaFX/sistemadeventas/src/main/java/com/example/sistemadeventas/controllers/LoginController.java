@@ -5,8 +5,11 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.example.sistemadeventas.models.Cliente;
 import com.example.sistemadeventas.view.App;
@@ -44,12 +47,28 @@ public class LoginController {
         for (Cliente cliente : clientes) {
             if (cliente.getCedulaRUC().equals(username) && cliente.getCedulaRUC().equals(password)) {
                 System.out.println("Sesión exitosa");
+
+                // Crear un objeto JSON para la sesión
+                Map<String, String> sessionData = new HashMap<>();
+                sessionData.put("cedulaRUC", username); // Guardar la cédulaRUC en la sesión
+
+                // Convertir el objeto JSON en una cadena JSON
+                ObjectMapper objectMapper = new ObjectMapper();
                 try {
+                    String sessionJson = objectMapper.writeValueAsString(sessionData);
+
+                    // Escribir la cadena JSON en un archivo
+                    File sessionFile = new File(
+                            "sistemadeventas\\src\\main\\java\\com\\example\\sistemadeventas\\data\\session.json");
+                    FileWriter fileWriter = new FileWriter(sessionFile);
+                    fileWriter.write(sessionJson);
+                    fileWriter.close();
+
                     // Cambiar a la pantalla de compra de productos
                     App.setRoot("PaginaCompraProductos");
                 } catch (IOException e) {
                     e.printStackTrace();
-                    System.err.println("Error al cambiar a la pantalla de compra de productos: " + e.getMessage());
+                    System.err.println("Error al guardar la sesión en el archivo JSON: " + e.getMessage());
                 }
                 return;
             }
@@ -68,9 +87,11 @@ public class LoginController {
     private List<Cliente> cargarClientesDesdeJSON() {
         ObjectMapper objectMapper = new ObjectMapper();
         try {
-            File jsonFile = new File("sistemadeventas\\src\\main\\java\\com\\example\\sistemadeventas\\data\\clientes.json"); // Ruta al archivo
-                                                                                                      // JSON de
-                                                                                                      // clientes
+            File jsonFile = new File(
+                    "sistemadeventas\\src\\main\\java\\com\\example\\sistemadeventas\\data\\clientes.json"); // Ruta al
+                                                                                                             // archivo
+            // JSON de
+            // clientes
             if (jsonFile.exists()) {
                 return objectMapper.readValue(jsonFile, new TypeReference<List<Cliente>>() {
                 });
