@@ -20,42 +20,20 @@ public class Producto {
         this.categoria = categoria;
     }
 
-    // Getters y setters
+    // Getters para las propiedades
     public int getId() {
         return id.get();
-    }
-
-    public void setId(int id) {
-        this.id.set(id);
-    }
-
-    public SimpleIntegerProperty idProperty() {
-        return id;
     }
 
     public String getNombre() {
         return nombre.get();
     }
 
-    public void setNombre(String nombre) {
-        this.nombre.set(nombre);
-    }
-
-    public SimpleStringProperty nombreProperty() {
-        return nombre;
-    }
-
     public double getPrecio() {
         return precio.get();
     }
 
-    public void setPrecio(double precio) {
-        this.precio.set(precio);
-    }
-
-    public SimpleDoubleProperty precioProperty() {
-        return precio;
-    }
+    // Setters para las propiedades (si es necesario)
 
     public Categoria getCategoria() {
         return categoria;

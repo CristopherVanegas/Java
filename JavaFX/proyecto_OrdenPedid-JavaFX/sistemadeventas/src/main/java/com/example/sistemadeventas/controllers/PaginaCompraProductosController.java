@@ -3,7 +3,7 @@ package com.example.sistemadeventas.controllers;
 import javafx.fxml.FXML;
 
 import java.io.IOException;
-
+import javafx.scene.control.cell.PropertyValueFactory;
 import com.example.sistemadeventas.view.App;
 
 public class PaginaCompraProductosController {
