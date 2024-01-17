@@ -14,8 +14,10 @@ import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.image.ImageView;
 
 import java.io.File;
 import java.io.IOException;
@@ -55,11 +57,13 @@ public class PaginaCompraProductosController {
         categorias.add(new Categoria(5, "Celulares"));
         categorias.add(new Categoria(6, "Audio"));
         categorias.add(new Categoria(7, "Video"));
-        
-        // Inicializa productos - Genera al menos 30 productos con las categorías existentes
+
+        // Inicializa productos - Genera al menos 30 productos con las categorías
+        // existentes
         for (int i = 1; i <= 30; i++) {
             Categoria categoria = categorias.get(i % categorias.size()); // Cicla a través de las categorías
-            productos.add(new Producto(i, "Producto " + i, i * 100.0, categoria));
+            productos.add(new Producto(i, "Producto " + i, i * 100.0, categoria,
+                    "sistemadeventas\\src\\main\\java\\com\\example\\sistemadeventas\\resource\\images\\laptop_product_icon.jpg"));
         }
 
         // Llama al método para guardar categorías y productos en archivos JSON
@@ -68,26 +72,53 @@ public class PaginaCompraProductosController {
 
     @FXML
     private void initialize() {
+        // 1ra Columna Imagenes
+        TableColumn<Producto, String> imagenColumna = new TableColumn<>("Imagen");
+        imagenColumna.setCellValueFactory(new PropertyValueFactory<>("imagenPath"));
+        imagenColumna.setMinWidth(100);
+        imagenColumna.setMaxWidth(100);
+
+        imagenColumna.setCellFactory(column -> {
+            return new TableCell<Producto, String>() {
+                final ImageView imageView = new ImageView();
+
+                @Override
+                protected void updateItem(String item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (item == null || empty) {
+                        setGraphic(null);
+                    } else {
+                        // Cargar la imagen desde la ruta
+                        Image image = new Image(new File(item).toURI().toString());
+                        imageView.setImage(image);
+                        imageView.setFitWidth(100);
+                        imageView.setFitHeight(100);
+                        setGraphic(imageView);
+                    }
+                }
+            };
+        });
+
+        // 2da Columna Precio
         TableColumn<Producto, String> nombreColumna = new TableColumn<>("Nombre");
         nombreColumna.setCellValueFactory(new PropertyValueFactory<>("nombre"));
         nombreColumna.prefWidthProperty().bind(tablaProductos.widthProperty().divide(4)); // Divide el ancho en 4
                                                                                           // columnas
-
+        // 3ra Columna Precio
         TableColumn<Producto, Double> precioColumna = new TableColumn<>("Precio");
         precioColumna.setCellValueFactory(new PropertyValueFactory<>("precio"));
         precioColumna.prefWidthProperty().bind(tablaProductos.widthProperty().divide(4)); // Divide el ancho en 4
                                                                                           // columnas
-
+        // 4ta Columna Categoria
         TableColumn<Producto, String> categoriaColumna = new TableColumn<>("Categoría");
         categoriaColumna.setCellValueFactory(cellData -> cellData.getValue().getCategoria().nombreProperty());
         categoriaColumna.prefWidthProperty().bind(tablaProductos.widthProperty().divide(4)); // Divide el ancho en 4
-                                                                                             // columnas
 
+        // 5ta Columna Carrito
         TableColumn<Producto, Button> agregarCarritoColumna = new TableColumn<>("Acción");
         agregarCarritoColumna
                 .setCellValueFactory(cellData -> new SimpleObjectProperty<>(new Button("Agregar al carrito")));
         agregarCarritoColumna.prefWidthProperty().bind(tablaProductos.widthProperty().divide(4)); // Divide el ancho en
-                                                                                                  // 4 columnas
 
         agregarCarritoColumna.setCellFactory(column -> {
             return new TableCell<Producto, Button>() {
@@ -110,16 +141,22 @@ public class PaginaCompraProductosController {
                     }
                 }
             };
-        }); // 4 columnas
+        });
 
+        // Styles
+        imagenColumna.setStyle("-fx-alignment: CENTER;");
         nombreColumna.setStyle("-fx-alignment: CENTER;");
         precioColumna.setStyle("-fx-alignment: CENTER;");
         categoriaColumna.setStyle("-fx-alignment: CENTER;");
         agregarCarritoColumna.setStyle("-fx-alignment: CENTER;");
 
-        tablaProductos.getColumns().addAll(nombreColumna, precioColumna, categoriaColumna, agregarCarritoColumna);
+        tablaProductos.getColumns().addAll(imagenColumna, nombreColumna, precioColumna, categoriaColumna, agregarCarritoColumna);
         tablaProductos.setItems(FXCollections.observableArrayList(productos));
 
+        // Configurar la tabla para que se ajuste automáticamente al contenido
+        tablaProductos.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+
+        // Configura combobox
         comboBoxCategorias.setItems(FXCollections.observableArrayList(categorias));
         comboBoxCategorias.getItems().add(0, new Categoria(0, "Todos"));
         comboBoxCategorias.setValue(comboBoxCategorias.getItems().get(0));
