@@ -6,6 +6,7 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.geometry.Pos?>
@@ -19,12 +20,10 @@
         </HBox>
     </top>
     <center>
-        <HBox alignment="CENTER">
-            <TableView fx:id="tablaProductos" maxWidth="1.7976931348623157E308">
-                <columns>
-                    
-                </columns>
+        <AnchorPane>
+            <TableView fx:id="tablaProductos" AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                <!-- Columnas de la tabla -->                
             </TableView>
-        </HBox>
+        </AnchorPane>
     </center>
 </BorderPane>

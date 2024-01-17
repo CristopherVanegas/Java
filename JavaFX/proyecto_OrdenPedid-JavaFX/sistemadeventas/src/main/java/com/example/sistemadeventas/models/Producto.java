@@ -1,45 +1,53 @@
 package com.example.sistemadeventas.models;
 
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.scene.control.Button;
 
 public class Producto {
-    private final SimpleIntegerProperty id = new SimpleIntegerProperty();
-    private final SimpleStringProperty nombre = new SimpleStringProperty();
-    private final SimpleDoubleProperty precio = new SimpleDoubleProperty();
+    private int id;
+    private String nombre;
+    private double precio;
     private Categoria categoria;
-
-    public Producto() {
-    }
+    private final SimpleObjectProperty<Button> botonAgregarCarrito;
 
     public Producto(int id, String nombre, double precio, Categoria categoria) {
-        this.id.set(id);
-        this.nombre.set(nombre);
-        this.precio.set(precio);
+        this.id = id;
+        this.nombre = nombre;
+        this.precio = precio;
         this.categoria = categoria;
+
+        Button boton = new Button("Agregar al carrito");
+        botonAgregarCarrito = new SimpleObjectProperty<>(boton);
+
+        boton.setOnAction(event -> agregarAlCarrito());
     }
 
-    // Getters para las propiedades
     public int getId() {
-        return id.get();
+        return id;
     }
 
     public String getNombre() {
-        return nombre.get();
+        return nombre;
     }
 
     public double getPrecio() {
-        return precio.get();
+        return precio;
     }
-
-    // Setters para las propiedades (si es necesario)
 
     public Categoria getCategoria() {
         return categoria;
     }
 
-    public void setCategoria(Categoria categoria) {
-        this.categoria = categoria;
+    public Button getBotonAgregarCarrito() {
+        return botonAgregarCarrito.get();
+    }
+
+    public SimpleObjectProperty<Button> botonAgregarCarritoProperty() {
+        return botonAgregarCarrito;
+    }
+
+    private void agregarAlCarrito() {
+        // Implementa aquí la lógica para agregar el producto al carrito
+        System.out.println("Producto agregado al carrito: " + nombre);
     }
 }

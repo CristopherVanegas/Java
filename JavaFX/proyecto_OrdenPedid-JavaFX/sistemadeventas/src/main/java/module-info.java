@@ -1,4 +1,5 @@
 module com.example.sistemadeventas {
+    requires transitive javafx.base;
     requires com.fasterxml.jackson.databind;
     requires javafx.controls;
     requires javafx.fxml;

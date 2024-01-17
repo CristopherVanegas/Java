@@ -2,28 +2,46 @@ package com.example.sistemadeventas.controllers;
 
 import com.example.sistemadeventas.models.Categoria;
 import com.example.sistemadeventas.models.Producto;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.StackPane;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class PaginaCompraProductosController {
 
     private List<Producto> productos;
     private List<Categoria> categorias;
+    private static List<Producto> carrito = new ArrayList<>(); // Lista para almacenar los productos del carrito
 
     @FXML
     private TableView<Producto> tablaProductos;
 
+    @FXML
+    private ComboBox<Categoria> comboBoxCategorias;
+
+    @FXML
+    private AnchorPane anchorPane;
+
+    @FXML
+    private StackPane alertPane;
+
+    private Alert alert;
+
     public PaginaCompraProductosController() {
-        // Inicializa las listas de categorías y productos aquí
         categorias = new ArrayList<>();
         categorias.add(new Categoria(1, "Computadoras"));
         categorias.add(new Categoria(2, "Laptops"));
@@ -34,9 +52,13 @@ public class PaginaCompraProductosController {
         categorias.add(new Categoria(7, "Video"));
 
         productos = new ArrayList<>();
-        productos.add(new Producto(1, "Producto 1", 500.0, categorias.get(0)));
-        productos.add(new Producto(2, "Producto 2", 800.0, categorias.get(1)));
-        // Agrega más productos si es necesario
+        carrito = new ArrayList<>(); // Inicializa la lista del carrito
+
+        // Genera al menos 30 productos con las categorías existentes
+        for (int i = 1; i <= 30; i++) {
+            Categoria categoria = categorias.get(i % categorias.size()); // Cicla a través de las categorías
+            productos.add(new Producto(i, "Producto " + i, i * 100.0, categoria));
+        }
 
         // Llama al método para guardar categorías y productos en archivos JSON
         ProductAndCategoryJSONController.guardarCategoriasYProductosEnJSON(categorias, productos);
@@ -46,69 +68,99 @@ public class PaginaCompraProductosController {
     private void initialize() {
         TableColumn<Producto, String> nombreColumna = new TableColumn<>("Nombre");
         nombreColumna.setCellValueFactory(new PropertyValueFactory<>("nombre"));
-        nombreColumna.prefWidthProperty().bind(tablaProductos.widthProperty().divide(3)); // Divide el ancho en 3
+        nombreColumna.prefWidthProperty().bind(tablaProductos.widthProperty().divide(4)); // Divide el ancho en 4
                                                                                           // columnas
 
         TableColumn<Producto, Double> precioColumna = new TableColumn<>("Precio");
         precioColumna.setCellValueFactory(new PropertyValueFactory<>("precio"));
-        precioColumna.prefWidthProperty().bind(tablaProductos.widthProperty().divide(3)); // Divide el ancho en 3
+        precioColumna.prefWidthProperty().bind(tablaProductos.widthProperty().divide(4)); // Divide el ancho en 4
                                                                                           // columnas
 
         TableColumn<Producto, String> categoriaColumna = new TableColumn<>("Categoría");
         categoriaColumna.setCellValueFactory(cellData -> cellData.getValue().getCategoria().nombreProperty());
-        categoriaColumna.prefWidthProperty().bind(tablaProductos.widthProperty().divide(3)); // Divide el ancho en 3
+        categoriaColumna.prefWidthProperty().bind(tablaProductos.widthProperty().divide(4)); // Divide el ancho en 4
                                                                                              // columnas
 
-        // Centra el contenido de las celdas
+        TableColumn<Producto, Button> agregarCarritoColumna = new TableColumn<>("Acción");
+        agregarCarritoColumna.setCellValueFactory(cellData -> cellData.getValue().botonAgregarCarritoProperty());
+        agregarCarritoColumna.prefWidthProperty().bind(tablaProductos.widthProperty().divide(4)); // Divide el ancho en
+                                                                                                  // 4 columnas
+
+        agregarCarritoColumna.setCellFactory(column -> {
+            return new TableCell<Producto, Button>() {
+                final Button button = new Button("Agregar al carrito");
+
+                {
+                    button.setOnAction(event -> {
+                        Producto producto = getTableView().getItems().get(getIndex());
+                        agregarProductoAlCarrito(producto);
+                    });
+                }
+
+                @Override
+                protected void updateItem(Button item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (empty) {
+                        setGraphic(null);
+                    } else {
+                        setGraphic(button);
+                    }
+                }
+            };
+        }); // 4 columnas
+
         nombreColumna.setStyle("-fx-alignment: CENTER;");
         precioColumna.setStyle("-fx-alignment: CENTER;");
         categoriaColumna.setStyle("-fx-alignment: CENTER;");
+        agregarCarritoColumna.setStyle("-fx-alignment: CENTER;");
 
-        tablaProductos.getColumns().addAll(nombreColumna, precioColumna, categoriaColumna);
+        tablaProductos.getColumns().addAll(nombreColumna, precioColumna, categoriaColumna, agregarCarritoColumna);
         tablaProductos.setItems(FXCollections.observableArrayList(productos));
 
-        // Establece el ancho máximo de la tabla al ancho máximo de la ventana
-        tablaProductos.setMaxWidth(Double.MAX_VALUE);
+        comboBoxCategorias.setItems(FXCollections.observableArrayList(categorias));
+        comboBoxCategorias.getItems().add(0, new Categoria(0, "Todos"));
+        comboBoxCategorias.setValue(comboBoxCategorias.getItems().get(0));
+
+        comboBoxCategorias.setOnAction(event -> filtrarProductosPorCategoria());
     }
 
-    private void cargarCategoriasDesdeJSON() {
-        ObjectMapper objectMapper = new ObjectMapper();
-        try {
-            File categoriasFile = new File(
-                    "sistemadeventas/src/main/java/com/example/sistemadeventas/data/categorias.json");
-            if (!categoriasFile.exists()) {
-                System.err.println("El archivo de categorías no existe.");
-                return;
-            }
-
-            System.out.println("Leyendo categorías desde el archivo JSON...");
-            categorias = objectMapper.readValue(categoriasFile,
-                    objectMapper.getTypeFactory().constructCollectionType(List.class, Categoria.class));
-            System.out.println("Categorías cargadas exitosamente.");
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.err.println("Error al cargar las categorías desde el archivo JSON: " + e.getMessage());
+    @FXML
+    private void filtrarProductosPorCategoria() {
+        Categoria categoriaSeleccionada = comboBoxCategorias.getValue();
+        if (categoriaSeleccionada == null || categoriaSeleccionada.getId() == 0) {
+            tablaProductos.setItems(FXCollections.observableArrayList(productos));
+        } else {
+            List<Producto> productosFiltrados = productos.stream()
+                    .filter(producto -> producto.getCategoria().equals(categoriaSeleccionada))
+                    .collect(Collectors.toList());
+            tablaProductos.setItems(FXCollections.observableArrayList(productosFiltrados));
         }
     }
 
-    private void cargarProductosDesdeJSON() {
-        ObjectMapper objectMapper = new ObjectMapper();
-        try {
-            File productosFile = new File(
-                    "sistemadeventas/src/main/java/com/example/sistemadeventas/data/productos.json");
-            if (!productosFile.exists()) {
-                System.err.println("El archivo de productos no existe.");
-                return;
-            }
+    @FXML
+    private void agregarProductoAlCarrito(Producto productoSeleccionado) {
+        if (productoSeleccionado != null) {
+            // Agregar el producto seleccionado al carrito
+            carrito.add(productoSeleccionado);
 
-            System.out.println("Leyendo productos desde el archivo JSON...");
-            productos = objectMapper.readValue(productosFile,
-                    objectMapper.getTypeFactory().constructCollectionType(List.class, Producto.class));
-            System.out.println("Productos cargados exitosamente.");
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.err.println("Error al cargar los productos desde el archivo JSON: " + e.getMessage());
+            // Mostrar la alerta
+            mostrarAlerta("Producto agregado al carrito: " + productoSeleccionado.getNombre());
+
+            // Depuración: Imprimir el contenido del carrito
+            System.out.println("Contenido del carrito:");
+            for (Producto producto : carrito) {
+                System.out.println("ID: " + producto.getId() + ", Nombre: " + producto.getNombre());
+            }
         }
+    }
+
+    private void mostrarAlerta(String mensaje) {
+        alert = new Alert(AlertType.INFORMATION);
+        alert.setTitle("Alerta");
+        alert.setHeaderText(null);
+        alert.setContentText(mensaje);
+
+        alert.showAndWait();
     }
 
     @FXML

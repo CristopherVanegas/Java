@@ -61,5 +61,14 @@
         "direccion": "1",
         "telefono": "1",
         "codigoCliente": "1000_0.7303705822946792"
+    },
+    {
+        "cedulaRUC": "1515",
+        "nombres": "1515",
+        "apellidos": "1515",
+        "correo": "1515",
+        "direccion": "1515",
+        "telefono": "1515",
+        "codigoCliente": "1515_0.14542028711243382"
     }
 ]
