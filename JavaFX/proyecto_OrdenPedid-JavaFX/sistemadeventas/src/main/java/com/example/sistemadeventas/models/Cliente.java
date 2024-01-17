@@ -3,6 +3,7 @@ package com.example.sistemadeventas.models;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class Cliente {
     private String cedulaRUC;
     private String nombres;
@@ -14,14 +15,16 @@ public class Cliente {
     private List<Pedido> listaPedidos; // Lista de pedidos asociados al cliente
 
     // Constructor con argumentos
-    public Cliente(String cedulaRUC, String nombres, String apellidos, String correo, String direccion, String telefono) {
+    public Cliente(String cedulaRUC, String nombres, String apellidos, String correo, String direccion,
+            String telefono) {
         this.cedulaRUC = cedulaRUC;
         this.nombres = nombres;
         this.apellidos = apellidos;
         this.correo = correo;
         this.direccion = direccion;
         this.telefono = telefono;
-        // Lógica para asignar un código de cliente único (puedes implementarla según tu necesidad)
+        // Lógica para asignar un código de cliente único (puedes implementarla según tu
+        // necesidad)
         this.codigoCliente = generarCodigoUnico();
         this.listaPedidos = new ArrayList<>(); // Inicializa la lista de pedidos
     }

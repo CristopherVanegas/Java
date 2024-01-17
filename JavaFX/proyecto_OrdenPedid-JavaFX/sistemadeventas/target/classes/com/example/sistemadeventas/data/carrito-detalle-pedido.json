@@ -1,8 +1,8 @@
 [
     {
         "id": 1,
-        "nombre": "Producto 1",
-        "precio": 100.0,
+        "nombre": "MacBook Pro ",
+        "precio": 2000.0,
         "categoria": {
             "id": 2,
             "nombre": "Laptops"
@@ -10,23 +10,13 @@
         "imagenPath": "sistemadeventas\\src\\main\\java\\com\\example\\sistemadeventas\\resource\\images\\laptop_product_icon.jpg"
     },
     {
-        "id": 3,
-        "nombre": "Producto 3",
-        "precio": 300.0,
+        "id": 2,
+        "nombre": "iPhone 15",
+        "precio": 1000.0,
         "categoria": {
-            "id": 4,
-            "nombre": "Impresoras"
+            "id": 5,
+            "nombre": "Celulares"
         },
-        "imagenPath": "sistemadeventas\\src\\main\\java\\com\\example\\sistemadeventas\\resource\\images\\laptop_product_icon.jpg"
-    },
-    {
-        "id": 30,
-        "nombre": "Producto 30",
-        "precio": 3000.0,
-        "categoria": {
-            "id": 3,
-            "nombre": "Tablets"
-        },
-        "imagenPath": "sistemadeventas\\src\\main\\java\\com\\example\\sistemadeventas\\resource\\images\\laptop_product_icon.jpg"
+        "imagenPath": "sistemadeventas\\src\\main\\java\\com\\example\\sistemadeventas\\resource\\images\\iPhone15.jpeg"
     }
 ]

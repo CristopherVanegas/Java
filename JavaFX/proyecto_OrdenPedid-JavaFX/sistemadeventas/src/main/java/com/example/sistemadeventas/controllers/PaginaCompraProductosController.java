@@ -1,7 +1,9 @@
 package com.example.sistemadeventas.controllers;
 
 import com.example.sistemadeventas.models.Categoria;
+import com.example.sistemadeventas.models.Cliente;
 import com.example.sistemadeventas.models.Producto;
+import com.example.sistemadeventas.models.SessionData;
 
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
@@ -26,7 +28,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class PaginaCompraProductosController {
-
+    private List<Cliente> clientes = new ArrayList<>();
     private List<Producto> productos = new ArrayList<>();
     private List<Categoria> categorias = new ArrayList<>();
     private static List<Producto> carrito = new ArrayList<>(); // Lista para almacenar los productos del carrito
@@ -49,6 +51,9 @@ public class PaginaCompraProductosController {
         // Inicializa el carrito desde el JSON
         carrito = ProductAndCategoryJSONController.cargarCarritoDesdeJSON(); // Inicializa la lista del carrito
 
+        // Inicializa los usuarios
+        clientes = ProductAndCategoryJSONController.cargarClientes(); // Inicializa la lista del carrito
+
         // Inicializa las categorias
         categorias.add(new Categoria(1, "Computadoras"));
         categorias.add(new Categoria(2, "Laptops"));
@@ -58,19 +63,40 @@ public class PaginaCompraProductosController {
         categorias.add(new Categoria(6, "Audio"));
         categorias.add(new Categoria(7, "Video"));
 
-        // Inicializa productos - Genera al menos 30 productos con las categorías existentes
-        for (int i = 1; i <= 30; i++) {
-            Categoria categoria = categorias.get(i % categorias.size()); // Cicla a través de las categorías
-            productos.add(new Producto(i, "Producto " + i, i * 100.0, categoria,
-                    "sistemadeventas\\src\\main\\java\\com\\example\\sistemadeventas\\resource\\images\\laptop_product_icon.jpg"));
-        }
+        // Inicializa productos
+        productos.add(new Producto(1, "MacBook Pro ", 2000, categorias.get(1),
+                "sistemadeventas\\src\\main\\java\\com\\example\\sistemadeventas\\resource\\images\\laptop_product_icon.jpg"));
 
-        // Llama al método para guardar categorías y productos en archivos JSON
+        productos.add(new Producto(productos.size() + 1, "iPhone 15", 1000, categorias.get(4),
+                "sistemadeventas\\src\\main\\java\\com\\example\\sistemadeventas\\resource\\images\\iPhone15.jpeg"));
+
+        productos.add(new Producto(productos.size() + 1, "iPad Air", 600, categorias.get(2),
+                "sistemadeventas\\src\\main\\java\\com\\example\\sistemadeventas\\resource\\images\\iPadAirM1.jpg"));
+
+        productos.add(new Producto(productos.size() + 1, "HP LaserJet Printer", 400, categorias.get(3),
+                "sistemadeventas\\src\\main\\java\\com\\example\\sistemadeventas\\resource\\images\\printer_product_icon.jpeg"));
+
+        productos.add(new Producto(productos.size() + 1, "iPhone 13", 1000, categorias.get(4),
+                "sistemadeventas\\src\\main\\java\\com\\example\\sistemadeventas\\resource\\images\\iPhone13.jpg"));
+
+        productos.add(new Producto(productos.size() + 1, "Bose QuietComfort Headphones", 350, categorias.get(5),
+                "sistemadeventas\\src\\main\\java\\com\\example\\sistemadeventas\\resource\\images\\bose_headphones.jpg"));
+
+        productos.add(new Producto(productos.size() + 1, "Samsung 4K Smart TV", 800, categorias.get(6),
+                "sistemadeventas\\src\\main\\java\\com\\example\\sistemadeventas\\resource\\images\\tv_product_icon.jpg"));
+
+        productos.add(new Producto(productos.size() + 1, "Dell XPS Laptop", 1500, categorias.get(1),
+                "sistemadeventas\\src\\main\\java\\com\\example\\sistemadeventas\\resource\\images\\dell_xps.jpg"));
+                
+        productos.add(new Producto(productos.size() + 1, "Google Pixel 6", 900, categorias.get(4),
+                "sistemadeventas\\src\\main\\java\\com\\example\\sistemadeventas\\resource\\images\\pixel6.jpeg"));
+
+                // Llama al método para guardar categorías y productos en archivos JSON
         ProductAndCategoryJSONController.guardarCategoriasYProductosEnJSON(categorias, productos);
     }
 
     @FXML
-    private void initialize() {
+    private void initialize() {        
         // 1ra Columna Imagenes
         TableColumn<Producto, String> imagenColumna = new TableColumn<>("Imagen");
         imagenColumna.setCellValueFactory(new PropertyValueFactory<>("imagenPath"));
@@ -149,7 +175,8 @@ public class PaginaCompraProductosController {
         categoriaColumna.setStyle("-fx-alignment: CENTER;");
         agregarCarritoColumna.setStyle("-fx-alignment: CENTER;");
 
-        tablaProductos.getColumns().addAll(imagenColumna, nombreColumna, precioColumna, categoriaColumna, agregarCarritoColumna);
+        tablaProductos.getColumns().addAll(imagenColumna, nombreColumna, precioColumna, categoriaColumna,
+                agregarCarritoColumna);
         tablaProductos.setItems(FXCollections.observableArrayList(productos));
 
         // Configurar la tabla para que se ajuste automáticamente al contenido
@@ -179,21 +206,39 @@ public class PaginaCompraProductosController {
     @FXML
     private void agregarProductoAlCarrito(Producto productoSeleccionado) {
         if (productoSeleccionado != null) {
-            // Agregar el producto seleccionado al carrito
-            carrito.add(productoSeleccionado);
-
-            // Guardar el carrito en el archivo JSON
-            ProductAndCategoryJSONController.guardarCarritoEnJSON(carrito);
-
-            // Mostrar la alerta
-            mostrarAlerta("Producto agregado al carrito: " + productoSeleccionado.getNombre());
-
-            // Depuración: Imprimir el contenido del carrito
-            System.out.println("Contenido del carrito:");
-            for (Producto producto : carrito) {
-                System.out.println("ID: " + producto.getId() + ", Nombre: " + producto.getNombre());
+            SessionData sessionData = ProductAndCategoryJSONController.cargarSessionDataDesdeJSON();
+            // Obtener el cedulaRUC de sessionData
+            String cedulaRUCSession = sessionData.getCedulaRUC();
+        
+            // Buscar un cliente con el mismo cedulaRUC en la lista de clientes
+            Cliente clienteEncontrado = null;
+            for (Cliente cliente : clientes) {
+                if (cliente.getCedulaRUC().equals(cedulaRUCSession)) {
+                    clienteEncontrado = cliente;
+                    break; // Terminar el bucle una vez que se encuentre un cliente con el mismo cedulaRUC
+                }
             }
-        }
+        
+            if (clienteEncontrado != null) {
+                // Agregar el producto seleccionado al carrito
+                carrito.add(productoSeleccionado);
+        
+                // Guardar el carrito en el archivo JSON
+                ProductAndCategoryJSONController.guardarCarritoEnJSON(carrito);
+        
+                // Mostrar la alerta
+                mostrarAlerta("Producto agregado al carrito: " + productoSeleccionado.getNombre());
+        
+                // Depuración: Imprimir el contenido del carrito
+                System.out.println("Contenido del carrito:");
+                for (Producto producto : carrito) {
+                    System.out.println("ID: " + producto.getId() + ", Nombre: " + producto.getNombre());
+                }
+            } else {
+                // Si no se encuentra un cliente con el mismo cedulaRUC, mostrar un mensaje de error o manejar la situación de otra manera.
+                mostrarAlerta("No se encontró un cliente con el cedulaRUC correspondiente.");
+            }
+        }        
     }
 
     private void mostrarAlerta(String mensaje) {
