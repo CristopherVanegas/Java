@@ -58,8 +58,7 @@ public class PaginaCompraProductosController {
         categorias.add(new Categoria(6, "Audio"));
         categorias.add(new Categoria(7, "Video"));
 
-        // Inicializa productos - Genera al menos 30 productos con las categorías
-        // existentes
+        // Inicializa productos - Genera al menos 30 productos con las categorías existentes
         for (int i = 1; i <= 30; i++) {
             Categoria categoria = categorias.get(i % categorias.size()); // Cicla a través de las categorías
             productos.add(new Producto(i, "Producto " + i, i * 100.0, categoria,
