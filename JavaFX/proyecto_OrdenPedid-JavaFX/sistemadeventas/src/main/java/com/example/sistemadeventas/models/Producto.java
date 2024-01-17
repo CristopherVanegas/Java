@@ -18,8 +18,6 @@ public class Producto {
 
         Button boton = new Button("Agregar al carrito");
         botonAgregarCarrito = new SimpleObjectProperty<>(boton);
-
-        boton.setOnAction(event -> agregarAlCarrito());
     }
 
     public int getId() {
@@ -46,8 +44,4 @@ public class Producto {
         return botonAgregarCarrito;
     }
 
-    private void agregarAlCarrito() {
-        // Implementa aquí la lógica para agregar el producto al carrito
-        System.out.println("Producto agregado al carrito: " + nombre);
-    }
 }
