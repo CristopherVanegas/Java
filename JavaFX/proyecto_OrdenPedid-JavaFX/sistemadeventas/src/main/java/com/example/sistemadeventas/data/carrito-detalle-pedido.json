@@ -7,5 +7,32 @@
             "id": 2,
             "nombre": "Laptops"
         }
+    },
+    {
+        "id": 4,
+        "nombre": "Producto 4",
+        "precio": 400.0,
+        "categoria": {
+            "id": 5,
+            "nombre": "Celulares"
+        }
+    },
+    {
+        "id": 7,
+        "nombre": "Producto 7",
+        "precio": 700.0,
+        "categoria": {
+            "id": 1,
+            "nombre": "Computadoras"
+        }
+    },
+    {
+        "id": 5,
+        "nombre": "Producto 5",
+        "precio": 500.0,
+        "categoria": {
+            "id": 6,
+            "nombre": "Audio"
+        }
     }
 ]
