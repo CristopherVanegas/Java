@@ -70,14 +70,5 @@
         "direccion": "1515",
         "telefono": "1515",
         "codigoCliente": "1515_0.14542028711243382"
-    },
-    {
-        "cedulaRUC": "0957526353",
-        "nombres": "Valeria Denisse",
-        "apellidos": "Galarza Salvatierra",
-        "correo": "vgalarza@est.ecotec.edu.ec",
-        "direccion": "Km11.5 Via a la Costa",
-        "telefono": "+593 99 861 4135",
-        "codigoCliente": "0957526353_0.7148215376391946"
     }
 ]
