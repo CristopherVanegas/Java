@@ -2,6 +2,8 @@ package com.example.sistemadeventas.controllers;
 
 import com.example.sistemadeventas.models.Categoria;
 import com.example.sistemadeventas.models.Producto;
+
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -82,7 +84,8 @@ public class PaginaCompraProductosController {
                                                                                              // columnas
 
         TableColumn<Producto, Button> agregarCarritoColumna = new TableColumn<>("Acción");
-        agregarCarritoColumna.setCellValueFactory(cellData -> cellData.getValue().botonAgregarCarritoProperty());
+        agregarCarritoColumna
+                .setCellValueFactory(cellData -> new SimpleObjectProperty<>(new Button("Agregar al carrito")));
         agregarCarritoColumna.prefWidthProperty().bind(tablaProductos.widthProperty().divide(4)); // Divide el ancho en
                                                                                                   // 4 columnas
 

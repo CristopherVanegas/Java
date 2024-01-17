@@ -1,47 +1,54 @@
 package com.example.sistemadeventas.models;
 
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.scene.control.Button;
+import javafx.beans.property.*;
 
 public class Producto {
-    private int id;
-    private String nombre;
-    private double precio;
-    private Categoria categoria;
-    private final SimpleObjectProperty<Button> botonAgregarCarrito;
+    private final IntegerProperty id;
+    private final StringProperty nombre;
+    private final DoubleProperty precio;
+    private final ObjectProperty<Categoria> categoria;
 
     public Producto(int id, String nombre, double precio, Categoria categoria) {
-        this.id = id;
-        this.nombre = nombre;
-        this.precio = precio;
-        this.categoria = categoria;
-
-        Button boton = new Button("Agregar al carrito");
-        botonAgregarCarrito = new SimpleObjectProperty<>(boton);
+        this.id = new SimpleIntegerProperty(id);
+        this.nombre = new SimpleStringProperty(nombre);
+        this.precio = new SimpleDoubleProperty(precio);
+        this.categoria = new SimpleObjectProperty<>(categoria);
     }
 
     public int getId() {
+        return id.get();
+    }
+
+    public IntegerProperty idProperty() {
         return id;
     }
 
     public String getNombre() {
+        return nombre.get();
+    }
+
+    public StringProperty nombreProperty() {
         return nombre;
     }
 
     public double getPrecio() {
+        return precio.get();
+    }
+
+    public DoubleProperty precioProperty() {
         return precio;
     }
 
     public Categoria getCategoria() {
+        return categoria.get();
+    }
+
+    public ObjectProperty<Categoria> categoriaProperty() {
         return categoria;
     }
 
-    public Button getBotonAgregarCarrito() {
-        return botonAgregarCarrito.get();
+    @Override
+    public String toString() {
+        return nombre.get();
     }
-
-    public SimpleObjectProperty<Button> botonAgregarCarritoProperty() {
-        return botonAgregarCarrito;
-    }
-
 }
