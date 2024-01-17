@@ -25,8 +25,8 @@ import java.util.stream.Collectors;
 
 public class PaginaCompraProductosController {
 
-    private List<Producto> productos;
-    private List<Categoria> categorias;
+    private List<Producto> productos = new ArrayList<>();
+    private List<Categoria> categorias = new ArrayList<>();
     private static List<Producto> carrito = new ArrayList<>(); // Lista para almacenar los productos del carrito
 
     @FXML
@@ -44,7 +44,10 @@ public class PaginaCompraProductosController {
     private Alert alert;
 
     public PaginaCompraProductosController() {
-        categorias = new ArrayList<>();
+        // Inicializa el carrito desde el JSON
+        carrito = ProductAndCategoryJSONController.cargarCarritoDesdeJSON(); // Inicializa la lista del carrito
+
+        // Inicializa las categorias
         categorias.add(new Categoria(1, "Computadoras"));
         categorias.add(new Categoria(2, "Laptops"));
         categorias.add(new Categoria(3, "Tablets"));
@@ -52,11 +55,8 @@ public class PaginaCompraProductosController {
         categorias.add(new Categoria(5, "Celulares"));
         categorias.add(new Categoria(6, "Audio"));
         categorias.add(new Categoria(7, "Video"));
-
-        productos = new ArrayList<>();
-        carrito = new ArrayList<>(); // Inicializa la lista del carrito
-
-        // Genera al menos 30 productos con las categorías existentes
+        
+        // Inicializa productos - Genera al menos 30 productos con las categorías existentes
         for (int i = 1; i <= 30; i++) {
             Categoria categoria = categorias.get(i % categorias.size()); // Cicla a través de las categorías
             productos.add(new Producto(i, "Producto " + i, i * 100.0, categoria));
@@ -145,6 +145,9 @@ public class PaginaCompraProductosController {
         if (productoSeleccionado != null) {
             // Agregar el producto seleccionado al carrito
             carrito.add(productoSeleccionado);
+
+            // Guardar el carrito en el archivo JSON
+            ProductAndCategoryJSONController.guardarCarritoEnJSON(carrito);
 
             // Mostrar la alerta
             mostrarAlerta("Producto agregado al carrito: " + productoSeleccionado.getNombre());

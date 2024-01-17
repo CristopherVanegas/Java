@@ -12,6 +12,32 @@ public class ProductAndCategoryJSONController {
 
     private static final String CATEGORIAS_JSON_PATH = "sistemadeventas\\src\\main\\java\\com\\example\\sistemadeventas\\data\\categorias.json";
     private static final String PRODUCTOS_JSON_PATH = "sistemadeventas\\src\\main\\java\\com\\example\\sistemadeventas\\data\\productos.json";
+    private static final String DETALLE_PEDIDO_JSON_PATH = "sistemadeventas/src/main/java/com/example/sistemadeventas/data/carrito-detalle-pedido.json";
+
+    public static void guardarCarritoEnJSON(List<Producto> carrito) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            objectMapper.writeValue(new File(DETALLE_PEDIDO_JSON_PATH), carrito);
+            System.out.println("Carrito guardado en archivo JSON.");
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.err.println("Error al guardar el carrito en el archivo JSON: " + e.getMessage());
+        }
+    }
+
+    public static List<Producto> cargarCarritoDesdeJSON() {
+        ObjectMapper objectMapper = new ObjectMapper();
+        List<Producto> carrito = new ArrayList<>();
+        try {
+            carrito = objectMapper.readValue(new File(DETALLE_PEDIDO_JSON_PATH),
+                    objectMapper.getTypeFactory().constructCollectionType(List.class, Producto.class));
+            System.out.println("Carrito cargado desde archivo JSON.");
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.err.println("Error al cargar el carrito desde el archivo JSON: " + e.getMessage());
+        }
+        return carrito;
+    }
 
     public static void guardarCategoriasYProductosEnJSON(List<Categoria> categorias, List<Producto> productos) {
         ObjectMapper objectMapper = new ObjectMapper();
