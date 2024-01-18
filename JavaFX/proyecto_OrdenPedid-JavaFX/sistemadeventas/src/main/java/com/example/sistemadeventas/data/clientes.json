@@ -1,1 +1,12 @@
-[{"cedulaRUC":"11","nombres":"11","apellidos":"11","correo":"11","direccion":"11","telefono":"11","codigoCliente":"11_0.8934628497914683","listaPedidos":[]}]
+[
+    {
+        "cedulaRUC": "11",
+        "nombres": "11",
+        "apellidos": "11",
+        "correo": "11",
+        "direccion": "11",
+        "telefono": "11",
+        "codigoCliente": "11_0.8934628497914683",
+        "listaPedidos": []
+    }
+]

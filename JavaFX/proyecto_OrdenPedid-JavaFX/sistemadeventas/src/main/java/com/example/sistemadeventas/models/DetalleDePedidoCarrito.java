@@ -1,45 +1,22 @@
 package com.example.sistemadeventas.models;
 
 import javafx.beans.property.*;
+import java.util.List;
 
 public class DetalleDePedidoCarrito {
-    private final IntegerProperty idDetallePedido;
-    private final StringProperty productos;
+    private final List<Producto> productos;
     private final DoubleProperty precio;
-    private final IntegerProperty cantidad;
     private final DoubleProperty subtotal;
 
-    public DetalleDePedidoCarrito() {
-        this.idDetallePedido = new SimpleIntegerProperty();
-        this.productos = new SimpleStringProperty();
-        this.precio = new SimpleDoubleProperty();
-        this.cantidad = new SimpleIntegerProperty();
-        this.subtotal = new SimpleDoubleProperty();
+    public DetalleDePedidoCarrito(List<Producto> productos) {
+        this.productos = productos;
+        this.precio = new SimpleDoubleProperty(calcularPrecioTotal());
+        this.subtotal = new SimpleDoubleProperty(0.0); // Inicializamos el subtotal en 0.0
+        calcularSubtotal(); // Calculamos el subtotal
     }
 
-    // Getter y Setter para idDetallePedido
-    public int getIdDetallePedido() {
-        return idDetallePedido.get();
-    }
-
-    public void setIdDetallePedido(int idDetallePedido) {
-        this.idDetallePedido.set(idDetallePedido);
-    }
-
-    public IntegerProperty idDetallePedidoProperty() {
-        return idDetallePedido;
-    }
-
-    // Getter y Setter para productos
-    public String getProductos() {
-        return productos.get();
-    }
-
-    public void setProductos(String productos) {
-        this.productos.set(productos);
-    }
-
-    public StringProperty productosProperty() {
+    // Getter para productos
+    public List<Producto> getProductos() {
         return productos;
     }
 
@@ -56,26 +33,24 @@ public class DetalleDePedidoCarrito {
         return precio;
     }
 
-    // Getter y Setter para cantidad
-    public int getCantidad() {
-        return cantidad.get();
-    }
-
-    public void setCantidad(int cantidad) {
-        this.cantidad.set(cantidad);
-    }
-
-    public IntegerProperty cantidadProperty() {
-        return cantidad;
-    }
-
-    // Getter y Setter para subtotal
+    // Getter para subtotal
     public double getSubtotal() {
         return subtotal.get();
     }
 
-    public void setSubtotal(double subtotal) {
-        this.subtotal.set(subtotal);
+    // Método para calcular el subtotal en función de los precios de los productos
+    private void calcularSubtotal() {
+        double subtotalValue = calcularPrecioTotal();
+        this.subtotal.set(subtotalValue);
+    }
+
+    // Método para calcular el precio total sumando los precios de los productos
+    private double calcularPrecioTotal() {
+        double precioTotal = 0.0;
+        for (Producto producto : productos) {
+            precioTotal += producto.getPrecio();
+        }
+        return precioTotal;
     }
 
     public DoubleProperty subtotalProperty() {
