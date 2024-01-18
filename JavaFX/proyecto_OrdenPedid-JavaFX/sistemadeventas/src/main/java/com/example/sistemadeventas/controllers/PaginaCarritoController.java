@@ -46,6 +46,7 @@ public class PaginaCarritoController {
 
     @FXML
     private void initialize() {
+
         pedidos = ProductAndCategoryJSONController.cargarPedidos();
         ObservableList<Pedido> listaPedidos = FXCollections.observableArrayList(pedidos);
 
@@ -59,7 +60,9 @@ public class PaginaCarritoController {
         formaDeEnvioColumna.setCellValueFactory(new PropertyValueFactory<>("formaDeEnvio"));
         estadoDelPedidoColumna.setCellValueFactory(new PropertyValueFactory<>("estadoDelPedido"));
 
-        debuggerGetPedidosMessage();
+        tablaCarrito.getSortOrder().clear();
+        tablaCarrito.getItems().clear();
+        tablaCarrito.getItems().addAll(listaPedidos);
 
     }
 
