@@ -23,19 +23,29 @@
     <center>
         <AnchorPane>
             <TableView fx:id="tablaCarrito" AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
-                <TableColumn text="Producto" fx:id="nombreColumna">
+                <TableColumn text="ID Pedido" fx:id="idPedidoColumna">
                     <cellValueFactory>
-                        <PropertyValueFactory property="nombre" />
+                        <PropertyValueFactory property="idPedido" />
                     </cellValueFactory>
                 </TableColumn>
-                <TableColumn text="Precio" fx:id="precioColumna">
+                <TableColumn text="Cliente" fx:id="clienteColumna">
                     <cellValueFactory>
-                        <PropertyValueFactory property="precio" />
+                        <PropertyValueFactory property="cliente" />
                     </cellValueFactory>
                 </TableColumn>
-                <TableColumn text="Cantidad" fx:id="cantidadColumna">
+                <TableColumn text="Fecha" fx:id="fechaColumna">
                     <cellValueFactory>
-                        <PropertyValueFactory property="cantidad" />
+                        <PropertyValueFactory property="fecha" />
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn text="Forma de Envío" fx:id="formaDeEnvioColumna">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="formaDeEnvio" />
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn text="Estado del Pedido" fx:id="estadoDelPedidoColumna">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="estadoDelPedido" />
                     </cellValueFactory>
                 </TableColumn>
             </TableView>
