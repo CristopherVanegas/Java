@@ -302,7 +302,7 @@ public class PaginaCompraProductosController {
             com.example.sistemadeventas.view.App.setRoot("PaginaCarrito");
         } catch (IOException e) {
             e.printStackTrace();
-            System.err.println("Error al cerrar sesión: " + e.getMessage());
+            System.err.println("Error al acceder a PaginaCarrito: " + e.getMessage());
         }
     }
 

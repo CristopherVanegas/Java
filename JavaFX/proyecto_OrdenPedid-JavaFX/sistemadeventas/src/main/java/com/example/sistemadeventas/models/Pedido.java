@@ -10,6 +10,10 @@ public class Pedido {
     private String estadoDelPedido;
     private DetalleDePedidoCarrito detalleDePedidoCarrito;
 
+    public Pedido() {
+        // Constructor sin argumentos para deserialización
+    }
+
     public Pedido(int idPedido, String cliente, Date fecha, String formaDeEnvio, String estadoDelPedido, DetalleDePedidoCarrito detalleDePedidoCarrito) {
         this.idPedido = idPedido;
         this.cliente = cliente;
@@ -19,6 +23,7 @@ public class Pedido {
         this.detalleDePedidoCarrito = detalleDePedidoCarrito;
     }
 
+    // Getters y setters para los campos primitivos
     public int getIdPedido() {
         return idPedido;
     }
@@ -59,11 +64,12 @@ public class Pedido {
         this.estadoDelPedido = estadoDelPedido;
     }
 
+    // Getter y setter para DetalleDePedidoCarrito
     public DetalleDePedidoCarrito getDetalleDePedidoCarrito() {
         return detalleDePedidoCarrito;
     }
 
-    public void setListaDetalleDePedidoCarrito(DetalleDePedidoCarrito detalleDePedidoCarrito) {
+    public void setDetalleDePedidoCarrito(DetalleDePedidoCarrito detalleDePedidoCarrito) {
         this.detalleDePedidoCarrito = detalleDePedidoCarrito;
     }
 }

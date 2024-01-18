@@ -1,64 +1,81 @@
 package com.example.sistemadeventas.models;
 
-import javafx.beans.property.*;
+import java.util.Objects;
 
 public class Producto {
-    private final IntegerProperty id;
-    private final StringProperty nombre;
-    private final DoubleProperty precio;
-    private final ObjectProperty<Categoria> categoria;
-    private final StringProperty imagenPath;
+    private int id;
+    private String nombre;
+    private double precio;
+    private Categoria categoria;
+    private String imagenPath;
+
+    public Producto() {
+        // Constructor por defecto para la deserialización
+    }
 
     public Producto(int id, String nombre, double precio, Categoria categoria, String imagenPath) {
-        this.id = new SimpleIntegerProperty(id);
-        this.nombre = new SimpleStringProperty(nombre);
-        this.precio = new SimpleDoubleProperty(precio);
-        this.categoria = new SimpleObjectProperty<>(categoria);
-        this.imagenPath = new SimpleStringProperty(imagenPath);
-    }
-    
-    public String getImagenPath() {
-        return imagenPath.get();
-    }
-    
-    public StringProperty imagenPathProperty() {
-        return imagenPath;
-    }
-    
-    public int getId() {
-        return id.get();
+        this.id = id;
+        this.nombre = nombre;
+        this.precio = precio;
+        this.categoria = categoria;
+        this.imagenPath = imagenPath;
     }
 
-    public IntegerProperty idProperty() {
+    public String getImagenPath() {
+        return imagenPath;
+    }
+
+    public void setImagenPath(String imagenPath) {
+        this.imagenPath = imagenPath;
+    }
+
+    public int getId() {
         return id;
     }
 
-    public String getNombre() {
-        return nombre.get();
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public StringProperty nombreProperty() {
+    public String getNombre() {
         return nombre;
     }
 
-    public double getPrecio() {
-        return precio.get();
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
-    public DoubleProperty precioProperty() {
+    public double getPrecio() {
         return precio;
     }
 
-    public Categoria getCategoria() {
-        return categoria.get();
+    public void setPrecio(double precio) {
+        this.precio = precio;
     }
 
-    public ObjectProperty<Categoria> categoriaProperty() {
+    public Categoria getCategoria() {
         return categoria;
+    }
+
+    public void setCategoria(Categoria categoria) {
+        this.categoria = categoria;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Producto producto = (Producto) o;
+        return id == producto.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 
     @Override
     public String toString() {
-        return nombre.get();
+        return nombre;
     }
 }

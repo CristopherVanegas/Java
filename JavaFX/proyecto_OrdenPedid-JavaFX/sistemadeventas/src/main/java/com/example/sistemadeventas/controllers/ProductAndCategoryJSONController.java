@@ -49,7 +49,7 @@ public class ProductAndCategoryJSONController {
         List<Pedido> pedidos = new ArrayList<>();
         try {
             pedidos = objectMapper.readValue(new File(PEDIDOS_JSON_PATH),
-                    objectMapper.getTypeFactory().constructCollectionType(List.class, Cliente.class));
+                    objectMapper.getTypeFactory().constructCollectionType(List.class, Pedido.class));
             System.out.println("pedidos cargados desde archivo JSON.");
         } catch (IOException e) {
             e.printStackTrace();
