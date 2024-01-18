@@ -1,7 +1,6 @@
 package com.example.sistemadeventas.models;
 
 import java.util.Date;
-import java.util.List;
 
 public class Pedido {
     private int idPedido;
@@ -9,15 +8,15 @@ public class Pedido {
     private Date fecha;
     private String formaDeEnvio;
     private String estadoDelPedido;
-    private List<DetalleDePedidoCarrito> listaDetalleDePedidoCarrito;
+    private DetalleDePedidoCarrito detalleDePedidoCarrito;
 
-    public Pedido(int idPedido, String cliente, Date fecha, String formaDeEnvio, String estadoDelPedido, List<DetalleDePedidoCarrito> listaDetalleDePedidoCarrito) {
+    public Pedido(int idPedido, String cliente, Date fecha, String formaDeEnvio, String estadoDelPedido, DetalleDePedidoCarrito detalleDePedidoCarrito) {
         this.idPedido = idPedido;
         this.cliente = cliente;
         this.fecha = fecha;
         this.formaDeEnvio = formaDeEnvio;
         this.estadoDelPedido = estadoDelPedido;
-        this.listaDetalleDePedidoCarrito = listaDetalleDePedidoCarrito;
+        this.detalleDePedidoCarrito = detalleDePedidoCarrito;
     }
 
     public int getIdPedido() {
@@ -60,11 +59,11 @@ public class Pedido {
         this.estadoDelPedido = estadoDelPedido;
     }
 
-    public List<DetalleDePedidoCarrito> getListaDetalleDePedidoCarrito() {
-        return listaDetalleDePedidoCarrito;
+    public DetalleDePedidoCarrito getDetalleDePedidoCarrito() {
+        return detalleDePedidoCarrito;
     }
 
-    public void setListaDetalleDePedidoCarrito(List<DetalleDePedidoCarrito> listaDetalleDePedidoCarrito) {
-        this.listaDetalleDePedidoCarrito = listaDetalleDePedidoCarrito;
+    public void setListaDetalleDePedidoCarrito(DetalleDePedidoCarrito detalleDePedidoCarrito) {
+        this.detalleDePedidoCarrito = detalleDePedidoCarrito;
     }
 }
