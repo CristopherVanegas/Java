@@ -309,10 +309,12 @@ public class PaginaCompraProductosController {
     @FXML
     private void handleLogout() {
         try {
+            File carritoFile = new File("sistemadeventas/src/main/java/com/example/sistemadeventas/data/carrito-detalle-pedido.json");
             File sessionFile = new File("sistemadeventas/src/main/java/com/example/sistemadeventas/data/session.json");
-            if (sessionFile.exists()) {
+            if (sessionFile.exists() && carritoFile.exists()) {
+                carritoFile.delete();
                 sessionFile.delete();
-                System.out.println("Sesión cerrada correctamente.");
+                System.out.println("Sesión y carrito cerrados correctamente.");
             } else {
                 System.err.println("El archivo de sesión no existe.");
             }

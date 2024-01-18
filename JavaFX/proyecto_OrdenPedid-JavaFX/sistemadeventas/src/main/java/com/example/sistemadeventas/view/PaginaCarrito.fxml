@@ -23,11 +23,21 @@
     <center>
         <AnchorPane>
             <TableView fx:id="tablaCarrito" AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
-                <columns>
-                    <TableColumn text="Producto" fx:id="nombreColumna" />
-                    <TableColumn text="Precio" fx:id="precioColumna" />
-                    <TableColumn text="Cantidad" fx:id="cantidadColumna" />
-                </columns>
+                <TableColumn text="Producto" fx:id="nombreColumna">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="nombre" />
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn text="Precio" fx:id="precioColumna">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="precio" />
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn text="Cantidad" fx:id="cantidadColumna">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="cantidad" />
+                    </cellValueFactory>
+                </TableColumn>
             </TableView>
         </AnchorPane>
     </center>
