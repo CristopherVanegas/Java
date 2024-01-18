@@ -46,47 +46,48 @@ public class PaginaCarritoController {
     private Button btnComprar;
 
     @FXML
-private void initialize() {
-    // Crear las columnas personalizadas
-    TableColumn<Pedido, String> idPedidoColumna = new TableColumn<>("ID Pedido");
-    idPedidoColumna.setCellValueFactory(new PropertyValueFactory<>("idPedido"));
+    private void initialize() {
+        // Crear las columnas personalizadas
+        TableColumn<Pedido, String> idPedidoColumna = new TableColumn<>("ID Pedido");
+        idPedidoColumna.setCellValueFactory(new PropertyValueFactory<>("idPedido"));
 
-    TableColumn<Pedido, String> clienteColumna = new TableColumn<>("Cliente");
-    clienteColumna.setCellValueFactory(new PropertyValueFactory<>("cliente"));
+        TableColumn<Pedido, String> clienteColumna = new TableColumn<>("Cliente");
+        clienteColumna.setCellValueFactory(new PropertyValueFactory<>("cliente"));
 
-    TableColumn<Pedido, Date> fechaColumna = new TableColumn<>("Fecha");
-    fechaColumna.setCellValueFactory(new PropertyValueFactory<>("fecha"));
+        TableColumn<Pedido, Date> fechaColumna = new TableColumn<>("Fecha");
+        fechaColumna.setCellValueFactory(new PropertyValueFactory<>("fecha"));
 
-    TableColumn<Pedido, String> formaDeEnvioColumna = new TableColumn<>("Forma de Envío");
-    formaDeEnvioColumna.setCellValueFactory(new PropertyValueFactory<>("formaDeEnvio"));
+        TableColumn<Pedido, String> formaDeEnvioColumna = new TableColumn<>("Forma de Envío");
+        formaDeEnvioColumna.setCellValueFactory(new PropertyValueFactory<>("formaDeEnvio"));
 
-    TableColumn<Pedido, String> estadoDelPedidoColumna = new TableColumn<>("Estado del Pedido");
-    estadoDelPedidoColumna.setCellValueFactory(new PropertyValueFactory<>("estadoDelPedido"));
+        TableColumn<Pedido, String> estadoDelPedidoColumna = new TableColumn<>("Estado del Pedido");
+        estadoDelPedidoColumna.setCellValueFactory(new PropertyValueFactory<>("estadoDelPedido"));
 
-    // Establecer estilo de fuente para las celdas
-    setFontStyleForTableColumn(idPedidoColumna);
-    setFontStyleForTableColumn(clienteColumna);
-    setFontStyleForTableColumn(fechaColumna);
-    setFontStyleForTableColumn(formaDeEnvioColumna);
-    setFontStyleForTableColumn(estadoDelPedidoColumna);
+        // Establecer estilo de fuente para las celdas
+        setFontStyleForTableColumn(idPedidoColumna);
+        setFontStyleForTableColumn(clienteColumna);
+        setFontStyleForTableColumn(fechaColumna);
+        setFontStyleForTableColumn(formaDeEnvioColumna);
+        setFontStyleForTableColumn(estadoDelPedidoColumna);
 
-    // Agregar las columnas personalizadas a la tabla
-    tablaCarrito.getColumns().addAll(idPedidoColumna, clienteColumna, fechaColumna, formaDeEnvioColumna, estadoDelPedidoColumna);
+        // Agregar las columnas personalizadas a la tabla
+        tablaCarrito.getColumns().addAll(idPedidoColumna, clienteColumna, fechaColumna, formaDeEnvioColumna,
+                estadoDelPedidoColumna);
 
-    // Cargar los datos de los pedidos desde tu controlador de JSON o donde los tengas
-    pedidos = ProductAndCategoryJSONController.cargarPedidos();
-    ObservableList<Pedido> listaPedidos = FXCollections.observableArrayList(pedidos);
+        // Cargar los datos de los pedidos desde tu controlador de JSON o donde los
+        // tengas
+        pedidos = ProductAndCategoryJSONController.cargarPedidos();
+        ObservableList<Pedido> listaPedidos = FXCollections.observableArrayList(pedidos);
 
-    // Enlazar la lista a la tabla
-    tablaCarrito.setItems(listaPedidos);
-}
+        // Enlazar la lista a la tabla
+        tablaCarrito.setItems(listaPedidos);
+    }
 
-private void setFontStyleForTableColumn(TableColumn<?, ?> column) {
-    // Crear un estilo de fuente y aplicarlo a la columna
-    Font font = new Font("Arial", 16);
-    column.setStyle("-fx-font-family: '" + font.getFamily() + "'; -fx-font-size: " + font.getSize() + "px;");
-}
-
+    private void setFontStyleForTableColumn(TableColumn<?, ?> column) {
+        // Crear un estilo de fuente y aplicarlo a la columna
+        Font font = new Font("Arial", 16);
+        column.setStyle("-fx-font-family: '" + font.getFamily() + "'; -fx-font-size: " + font.getSize() + "px;");
+    }
 
     private void debuggerGetPedidosMessage() {
         // Imprimir el contenido de pedidos por consola
