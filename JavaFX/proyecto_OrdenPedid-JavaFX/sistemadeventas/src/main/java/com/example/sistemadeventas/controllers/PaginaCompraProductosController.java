@@ -141,6 +141,9 @@ public class PaginaCompraProductosController {
                 }
             };
         });
+        // Aplicar estilos de fuente a los elementos
+        tablaProductos.setStyle("-fx-font-size: 16;");
+        comboBoxCategorias.setStyle("-fx-font-size: 16;");
 
         // 2da Columna Precio
         TableColumn<Producto, String> nombreColumna = new TableColumn<>("Nombre");
