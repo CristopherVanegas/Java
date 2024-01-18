@@ -34,7 +34,8 @@ import java.util.stream.Collectors;
 public class PaginaCompraProductosController {
     private List<Cliente> clientes = new ArrayList<>();
     private List<Pedido> pedidos = new ArrayList<>();
-    // private List<DetalleDePedidoCarrito> detalleDePedidoCarritos = new ArrayList<>();
+    // private List<DetalleDePedidoCarrito> detalleDePedidoCarritos = new
+    // ArrayList<>();
     private List<Producto> productos = new ArrayList<>();
     private List<Categoria> categorias = new ArrayList<>();
     private static List<Producto> carrito = new ArrayList<>(); // Lista para almacenar los productos del carrito
@@ -235,7 +236,7 @@ public class PaginaCompraProductosController {
             if (clienteEncontrado != null) {
                 // Agregar el producto seleccionado al carrito
                 carrito.add(productoSeleccionado);
-                
+
                 // Mostrar la alerta
                 mostrarAlerta("Producto agregado al carrito: " + productoSeleccionado.getNombre());
 
@@ -260,17 +261,18 @@ public class PaginaCompraProductosController {
         // Obtiene la fecha actual
         Calendar calendar = Calendar.getInstance();
         Date fechaActual = calendar.getTime();
-    
+
         // Agrega a la lista de pedidos el carrito con la fecha actual
         Pedido nuevoPedido = new Pedido(1000 + pedidos.size() + Integer.parseInt(cedulaRUCSession),
-                clienteEncontrado.getNombres() + clienteEncontrado.getApellidos(), fechaActual, "En linea", "no cancelado",
+                clienteEncontrado.getNombres() + clienteEncontrado.getApellidos(), fechaActual, "En linea",
+                "No cancelado",
                 new DetalleDePedidoCarrito(carrito));
-    
+
         pedidos.add(nuevoPedido);
-    
+
         // Guardar la lista de pedidos en el archivo JSON
         ProductAndCategoryJSONController.guardarPedidos(pedidos);
-    
+
         // Depuración: Imprimir el contenido de pedidos
         System.out.println("Contenido de pedidos:");
         for (Pedido pedido : pedidos) {
@@ -280,7 +282,6 @@ public class PaginaCompraProductosController {
         // Vacia carrito
         carrito = new ArrayList<>(); // Lista para almacenar los productos del carrito
     }
-    
 
     private void mostrarAlerta(String mensaje) {
         alert = new Alert(AlertType.INFORMATION);
@@ -291,8 +292,18 @@ public class PaginaCompraProductosController {
         alert.showAndWait();
     }
 
-    @FXML void handleCarrito() {
+    @FXML
+    void handleCarrito() {
         guardarPedido();
+        
+        // Establece como pagina root PaginaCarrito
+        try {
+            // Agrega aquí la importación adecuada para App
+            com.example.sistemadeventas.view.App.setRoot("PaginaCarrito");
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.err.println("Error al cerrar sesión: " + e.getMessage());
+        }
     }
 
     @FXML
