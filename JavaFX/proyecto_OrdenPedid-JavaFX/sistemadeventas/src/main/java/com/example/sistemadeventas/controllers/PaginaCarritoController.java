@@ -5,11 +5,14 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javafx.scene.control.TableCell;
+
 import com.example.sistemadeventas.models.DetalleDePedidoCarrito;
 import com.example.sistemadeventas.models.Pedido;
 import com.example.sistemadeventas.models.Producto;
 
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
@@ -41,11 +44,25 @@ public class PaginaCarritoController {
     @FXML
     private TableColumn<Pedido, String> estadoDelPedidoColumna;
 
+    // Crear una columna personalizada para mostrar los detalles del pedido
+    @FXML
+    private TableColumn<Pedido, Void> detallesColumna;
+
+    private ObservableList<Pedido> listaDePedidos = FXCollections.observableArrayList();
+
     @FXML
     private void initialize() {
         // Cargar los pedidos desde el archivo JSON
         pedidos = ProductAndCategoryJSONController.cargarPedidos();
+        debuggerGetPedidosMessage();
+        
 
+        // Asignar la lista de pedidos a la tabla
+        tablaCarrito.setItems(listaDePedidos);
+    }
+    
+
+    private void debuggerGetPedidosMessage() {
         // Imprimir el contenido de pedidos por consola
         System.out.println("Contenido de pedidos:");
         for (Pedido pedido : pedidos) {
@@ -71,8 +88,6 @@ public class PaginaCarritoController {
             }
             System.out.println("------------------------");
         }
-
-
     }
 
     @FXML
