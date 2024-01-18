@@ -46,24 +46,33 @@ public class PaginaCarritoController {
 
     @FXML
     private void initialize() {
+        // Crear las columnas personalizadas
+        TableColumn<Pedido, String> idPedidoColumna = new TableColumn<>("ID Pedido");
+        idPedidoColumna.setCellValueFactory(new PropertyValueFactory<>("idPedido"));
 
+        TableColumn<Pedido, String> clienteColumna = new TableColumn<>("Cliente");
+        clienteColumna.setCellValueFactory(new PropertyValueFactory<>("cliente"));
+
+        TableColumn<Pedido, Date> fechaColumna = new TableColumn<>("Fecha");
+        fechaColumna.setCellValueFactory(new PropertyValueFactory<>("fecha"));
+
+        TableColumn<Pedido, String> formaDeEnvioColumna = new TableColumn<>("Forma de Envío");
+        formaDeEnvioColumna.setCellValueFactory(new PropertyValueFactory<>("formaDeEnvio"));
+
+        TableColumn<Pedido, String> estadoDelPedidoColumna = new TableColumn<>("Estado del Pedido");
+        estadoDelPedidoColumna.setCellValueFactory(new PropertyValueFactory<>("estadoDelPedido"));
+
+        // Agregar las columnas personalizadas a la tabla
+        tablaCarrito.getColumns().addAll(idPedidoColumna, clienteColumna, fechaColumna, formaDeEnvioColumna,
+                estadoDelPedidoColumna);
+
+        // Cargar los datos de los pedidos desde tu controlador de JSON o donde los
+        // tengas
         pedidos = ProductAndCategoryJSONController.cargarPedidos();
         ObservableList<Pedido> listaPedidos = FXCollections.observableArrayList(pedidos);
 
         // Enlazar la lista a la tabla
         tablaCarrito.setItems(listaPedidos);
-
-        // Configurar las columnas para mostrar los datos de los pedidos
-        idPedidoColumna.setCellValueFactory(new PropertyValueFactory<>("idPedido"));
-        clienteColumna.setCellValueFactory(new PropertyValueFactory<>("cliente"));
-        fechaColumna.setCellValueFactory(new PropertyValueFactory<>("fecha"));
-        formaDeEnvioColumna.setCellValueFactory(new PropertyValueFactory<>("formaDeEnvio"));
-        estadoDelPedidoColumna.setCellValueFactory(new PropertyValueFactory<>("estadoDelPedido"));
-
-        tablaCarrito.getSortOrder().clear();
-        tablaCarrito.getItems().clear();
-        tablaCarrito.getItems().addAll(listaPedidos);
-
     }
 
     private void debuggerGetPedidosMessage() {
