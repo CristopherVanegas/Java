@@ -34,12 +34,13 @@ import java.util.stream.Collectors;
 public class PaginaCompraProductosController {
     private List<Cliente> clientes = new ArrayList<>();
     private List<Pedido> pedidos = new ArrayList<>();
-    private List<DetalleDePedidoCarrito> detalleDePedidoCarritos = new ArrayList<>();
+    // private List<DetalleDePedidoCarrito> detalleDePedidoCarritos = new ArrayList<>();
     private List<Producto> productos = new ArrayList<>();
     private List<Categoria> categorias = new ArrayList<>();
     private static List<Producto> carrito = new ArrayList<>(); // Lista para almacenar los productos del carrito
     private static SessionData sessionData = null;
     private static String cedulaRUCSession = null;
+    private static Cliente clienteEncontrado = null;
 
     @FXML
     private TableView<Producto> tablaProductos;
@@ -58,9 +59,12 @@ public class PaginaCompraProductosController {
     public PaginaCompraProductosController() {
         // Inicializa sessionData
         sessionData = ProductAndCategoryJSONController.cargarSessionDataDesdeJSON();
+
         // Obtener el cedulaRUC de sessionData
         cedulaRUCSession = sessionData.getCedulaRUC();
 
+        // Inicializa Pedidos
+        pedidos = ProductAndCategoryJSONController.cargarPedidos();
         // Inicializa el carrito desde el JSON
         carrito = ProductAndCategoryJSONController.cargarCarritoDesdeJSON(); // Inicializa la lista del carrito
 
@@ -167,6 +171,7 @@ public class PaginaCompraProductosController {
                         Producto producto = getTableView().getItems().get(getIndex());
                         agregarProductoAlCarrito(producto);
                     });
+                    button.setStyle("-fx-background-color: lightgreen;"); // Cambiar el color de fondo
                 }
 
                 @Override
@@ -220,7 +225,6 @@ public class PaginaCompraProductosController {
     private void agregarProductoAlCarrito(Producto productoSeleccionado) {
         if (productoSeleccionado != null) {
             // Buscar un cliente con el mismo cedulaRUC en la lista de clientes
-            Cliente clienteEncontrado = null;
             for (Cliente cliente : clientes) {
                 if (cliente.getCedulaRUC().equals(cedulaRUCSession)) {
                     clienteEncontrado = cliente;
@@ -240,37 +244,9 @@ public class PaginaCompraProductosController {
                 for (Producto producto : carrito) {
                     System.out.println("ID: " + producto.getId() + ", Nombre: " + producto.getNombre());
                 }
-                
-                // Obtiene la fecha actual
-                Calendar calendar = Calendar.getInstance();
-                Date fechaActual = calendar.getTime();
-                
-                // Agrega en detallePedido el carrito
-                detalleDePedidoCarritos.add(
-                    new DetalleDePedidoCarrito(carrito)
-                );
-
-                // Depuración: Imprimir el contenido de pedidos
-                System.out.println("Contenido de pedidos:");
-                for (Pedido pedido : pedidos) {
-                    System.out.println("ID: " + pedido.getIdPedido() + ", Nombre: " + pedido.getCliente());
-                }
-
-                // Agrega a la lista de pedidos el carrito con la fecha actual
-                pedidos.add(
-                    new Pedido(1000 + Integer.parseInt(cedulaRUCSession), 
-                    clienteEncontrado.getNombres() + clienteEncontrado.getApellidos(),
-                    fechaActual, 
-                    "En linea", 
-                    "no cancelado",
-                    detalleDePedidoCarritos)
-                );
 
                 // Guardar el carrito en el archivo JSON
                 ProductAndCategoryJSONController.guardarCarritoEnJSON(carrito);
-
-                // Guardar la lista de pedidos en el archivo JSON
-                ProductAndCategoryJSONController.guardarPedidos(pedidos);
 
             } else {
                 // Si no se encuentra un cliente con el mismo cedulaRUC, mostrar un mensaje de
@@ -280,6 +256,32 @@ public class PaginaCompraProductosController {
         }
     }
 
+    private void guardarPedido() {
+        // Obtiene la fecha actual
+        Calendar calendar = Calendar.getInstance();
+        Date fechaActual = calendar.getTime();
+    
+        // Agrega a la lista de pedidos el carrito con la fecha actual
+        Pedido nuevoPedido = new Pedido(1000 + pedidos.size() + Integer.parseInt(cedulaRUCSession),
+                clienteEncontrado.getNombres() + clienteEncontrado.getApellidos(), fechaActual, "En linea", "no cancelado",
+                new DetalleDePedidoCarrito(carrito));
+    
+        pedidos.add(nuevoPedido);
+    
+        // Guardar la lista de pedidos en el archivo JSON
+        ProductAndCategoryJSONController.guardarPedidos(pedidos);
+    
+        // Depuración: Imprimir el contenido de pedidos
+        System.out.println("Contenido de pedidos:");
+        for (Pedido pedido : pedidos) {
+            System.out.println("ID: " + pedido.getIdPedido() + ", Nombre: " + pedido.getCliente());
+        }
+
+        // Vacia carrito
+        carrito = new ArrayList<>(); // Lista para almacenar los productos del carrito
+    }
+    
+
     private void mostrarAlerta(String mensaje) {
         alert = new Alert(AlertType.INFORMATION);
         alert.setTitle("Alerta");
@@ -287,6 +289,10 @@ public class PaginaCompraProductosController {
         alert.setContentText(mensaje);
 
         alert.showAndWait();
+    }
+
+    @FXML void handleCarrito() {
+        guardarPedido();
     }
 
     @FXML
