@@ -2,10 +2,10 @@ package com.example.sistemadeventas.controllers;
 
 import com.example.sistemadeventas.models.Categoria;
 import com.example.sistemadeventas.models.Cliente;
-import com.example.sistemadeventas.models.DetalleDePedidoCarrito;
 import com.example.sistemadeventas.models.Pedido;
 import com.example.sistemadeventas.models.Producto;
 import com.example.sistemadeventas.models.SessionData;
+import com.example.sistemadeventas.view.App;
 
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
@@ -26,8 +26,6 @@ import javafx.scene.image.ImageView;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -59,60 +57,11 @@ public class AdminProductManagerController {
     private Alert alert;
 
     public AdminProductManagerController() {
-        // Inicializa sessionData
-        sessionData = ProductAndCategoryJSONController.cargarSessionDataDesdeJSON();
-
-        // Obtener el cedulaRUC de sessionData
-        cedulaRUCSession = sessionData.getCedulaRUC();
-
-        // Inicializa Pedidos
-        pedidos = ProductAndCategoryJSONController.cargarPedidos();
-
-        // Inicializa el carrito desde el JSON
-        carrito = ProductAndCategoryJSONController.cargarCarritoDesdeJSON(); // Inicializa la lista del carrito
-
-        // Inicializa los usuarios
-        clientes = ProductAndCategoryJSONController.cargarClientes(); // Inicializa la lista del carrito
-
         // Inicializa las categorias por defecto
-        categorias.add(new Categoria(1, "Computadoras"));
-        categorias.add(new Categoria(2, "Laptops"));
-        categorias.add(new Categoria(3, "Tablets"));
-        categorias.add(new Categoria(4, "Impresoras"));
-        categorias.add(new Categoria(5, "Celulares"));
-        categorias.add(new Categoria(6, "Audio"));
-        categorias.add(new Categoria(7, "Video"));
+        categorias = ProductAndCategoryJSONController.cargarCategoriasDesdeJSON();
 
         // Inicializa productos
-        productos.add(new Producto(1, "MacBook Pro ", 2000, categorias.get(1),
-                "sistemadeventas\\src\\main\\java\\com\\example\\sistemadeventas\\resource\\images\\laptop_product_icon.jpg"));
-
-        productos.add(new Producto(productos.size() + 1, "iPhone 15", 1000, categorias.get(4),
-                "sistemadeventas\\src\\main\\java\\com\\example\\sistemadeventas\\resource\\images\\iPhone15.jpeg"));
-
-        productos.add(new Producto(productos.size() + 1, "iPad Air", 600, categorias.get(2),
-                "sistemadeventas\\src\\main\\java\\com\\example\\sistemadeventas\\resource\\images\\iPadAirM1.jpg"));
-
-        productos.add(new Producto(productos.size() + 1, "HP LaserJet Printer", 400, categorias.get(3),
-                "sistemadeventas\\src\\main\\java\\com\\example\\sistemadeventas\\resource\\images\\printer_product_icon.jpeg"));
-
-        productos.add(new Producto(productos.size() + 1, "iPhone 13", 1000, categorias.get(4),
-                "sistemadeventas\\src\\main\\java\\com\\example\\sistemadeventas\\resource\\images\\iPhone13.jpg"));
-
-        productos.add(new Producto(productos.size() + 1, "Bose QuietComfort Headphones", 350, categorias.get(5),
-                "sistemadeventas\\src\\main\\java\\com\\example\\sistemadeventas\\resource\\images\\bose_headphones.jpg"));
-
-        productos.add(new Producto(productos.size() + 1, "Samsung 4K Smart TV", 800, categorias.get(6),
-                "sistemadeventas\\src\\main\\java\\com\\example\\sistemadeventas\\resource\\images\\tv_product_icon.jpg"));
-
-        productos.add(new Producto(productos.size() + 1, "Dell XPS Laptop", 1500, categorias.get(1),
-                "sistemadeventas\\src\\main\\java\\com\\example\\sistemadeventas\\resource\\images\\dell_xps.jpg"));
-
-        productos.add(new Producto(productos.size() + 1, "Google Pixel 6", 900, categorias.get(4),
-                "sistemadeventas\\src\\main\\java\\com\\example\\sistemadeventas\\resource\\images\\pixel6.jpeg"));
-
-        // Llama al método para guardar categorías y productos en archivos JSON
-        ProductAndCategoryJSONController.guardarCategoriasYProductosEnJSON(categorias, productos);
+        productos = ProductAndCategoryJSONController.cargarProductosDesdeJSON();
     }
 
     @FXML
@@ -233,6 +182,17 @@ public class AdminProductManagerController {
         comboBoxCategorias.setValue(comboBoxCategorias.getItems().get(0));
 
         comboBoxCategorias.setOnAction(event -> filtrarProductosPorCategoria());
+    }
+
+    @FXML
+    private void handleAddProduct() {
+        // Navegar a la pantalla de registro
+        try {
+            App.setRoot("registroProducto");
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 
     @FXML

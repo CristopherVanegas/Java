@@ -66,7 +66,7 @@ public class PaginaCompraProductosController {
 
         // Inicializa Pedidos
         pedidos = ProductAndCategoryJSONController.cargarPedidos();
-        
+
         // Inicializa el carrito desde el JSON
         carrito = ProductAndCategoryJSONController.cargarCarritoDesdeJSON(); // Inicializa la lista del carrito
 
