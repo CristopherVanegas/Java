@@ -64,8 +64,24 @@ public class LoginController {
                     fileWriter.write(sessionJson);
                     fileWriter.close();
 
-                    // Cambiar a la pantalla de compra de productos
-                    App.setRoot("PaginaCompraProductos");
+                    // Cambiar a la siguiente pantalla
+                    // Validar si las credenciales son iguales a "ADMIN"
+                    if ("ADMIN".equals(username) && "ADMIN".equals(password)) {
+                        try {
+                            // Cambiar la vista a "adminProductManager" si las credenciales son correctas
+                            App.setRoot("adminProductManager");
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    } else {
+                        try {
+                            // Cambiar la vista a "PaginaCompraProductos" si las credenciales son
+                            // incorrectas
+                            App.setRoot("PaginaCompraProductos");
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
                 } catch (IOException e) {
                     e.printStackTrace();
                     System.err.println("Error al guardar la sesión en el archivo JSON: " + e.getMessage());

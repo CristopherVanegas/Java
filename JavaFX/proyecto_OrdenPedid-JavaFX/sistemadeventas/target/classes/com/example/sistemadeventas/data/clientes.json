@@ -1,5 +1,15 @@
 [
     {
+        "cedulaRUC": "ADMIN",
+        "nombres": "ADMIN",
+        "apellidos": "ADMIN",
+        "correo": "ADMIN",
+        "direccion": "admin@admin.com",
+        "telefono": "ADMIN",
+        "codigoCliente": "11_0.ADMIN",
+        "listaPedidos": []
+    },
+    {
         "cedulaRUC": "11",
         "nombres": "11",
         "apellidos": "11",

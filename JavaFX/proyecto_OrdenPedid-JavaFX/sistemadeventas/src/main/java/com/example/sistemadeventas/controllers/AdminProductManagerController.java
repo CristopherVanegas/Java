@@ -9,6 +9,7 @@ import com.example.sistemadeventas.models.SessionData;
 
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -31,7 +32,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class PaginaCompraProductosController {
+public class AdminProductManagerController {
     private List<Cliente> clientes = new ArrayList<>();
     private List<Pedido> pedidos = new ArrayList<>();
     // private List<DetalleDePedidoCarrito> detalleDePedidoCarritos = new
@@ -57,7 +58,7 @@ public class PaginaCompraProductosController {
 
     private Alert alert;
 
-    public PaginaCompraProductosController() {
+    public AdminProductManagerController() {
         // Inicializa sessionData
         sessionData = ProductAndCategoryJSONController.cargarSessionDataDesdeJSON();
 
@@ -66,18 +67,49 @@ public class PaginaCompraProductosController {
 
         // Inicializa Pedidos
         pedidos = ProductAndCategoryJSONController.cargarPedidos();
-        
+
         // Inicializa el carrito desde el JSON
         carrito = ProductAndCategoryJSONController.cargarCarritoDesdeJSON(); // Inicializa la lista del carrito
 
         // Inicializa los usuarios
         clientes = ProductAndCategoryJSONController.cargarClientes(); // Inicializa la lista del carrito
 
-        // Inicializa las categorias
-        categorias = ProductAndCategoryJSONController.cargarCategoriasDesdeJSON();
+        // Inicializa las categorias por defecto
+        categorias.add(new Categoria(1, "Computadoras"));
+        categorias.add(new Categoria(2, "Laptops"));
+        categorias.add(new Categoria(3, "Tablets"));
+        categorias.add(new Categoria(4, "Impresoras"));
+        categorias.add(new Categoria(5, "Celulares"));
+        categorias.add(new Categoria(6, "Audio"));
+        categorias.add(new Categoria(7, "Video"));
 
         // Inicializa productos
-        productos = ProductAndCategoryJSONController.cargarProductosDesdeJSON();
+        productos.add(new Producto(1, "MacBook Pro ", 2000, categorias.get(1),
+                "sistemadeventas\\src\\main\\java\\com\\example\\sistemadeventas\\resource\\images\\laptop_product_icon.jpg"));
+
+        productos.add(new Producto(productos.size() + 1, "iPhone 15", 1000, categorias.get(4),
+                "sistemadeventas\\src\\main\\java\\com\\example\\sistemadeventas\\resource\\images\\iPhone15.jpeg"));
+
+        productos.add(new Producto(productos.size() + 1, "iPad Air", 600, categorias.get(2),
+                "sistemadeventas\\src\\main\\java\\com\\example\\sistemadeventas\\resource\\images\\iPadAirM1.jpg"));
+
+        productos.add(new Producto(productos.size() + 1, "HP LaserJet Printer", 400, categorias.get(3),
+                "sistemadeventas\\src\\main\\java\\com\\example\\sistemadeventas\\resource\\images\\printer_product_icon.jpeg"));
+
+        productos.add(new Producto(productos.size() + 1, "iPhone 13", 1000, categorias.get(4),
+                "sistemadeventas\\src\\main\\java\\com\\example\\sistemadeventas\\resource\\images\\iPhone13.jpg"));
+
+        productos.add(new Producto(productos.size() + 1, "Bose QuietComfort Headphones", 350, categorias.get(5),
+                "sistemadeventas\\src\\main\\java\\com\\example\\sistemadeventas\\resource\\images\\bose_headphones.jpg"));
+
+        productos.add(new Producto(productos.size() + 1, "Samsung 4K Smart TV", 800, categorias.get(6),
+                "sistemadeventas\\src\\main\\java\\com\\example\\sistemadeventas\\resource\\images\\tv_product_icon.jpg"));
+
+        productos.add(new Producto(productos.size() + 1, "Dell XPS Laptop", 1500, categorias.get(1),
+                "sistemadeventas\\src\\main\\java\\com\\example\\sistemadeventas\\resource\\images\\dell_xps.jpg"));
+
+        productos.add(new Producto(productos.size() + 1, "Google Pixel 6", 900, categorias.get(4),
+                "sistemadeventas\\src\\main\\java\\com\\example\\sistemadeventas\\resource\\images\\pixel6.jpeg"));
 
         // Llama al método para guardar categorías y productos en archivos JSON
         ProductAndCategoryJSONController.guardarCategoriasYProductosEnJSON(categorias, productos);
@@ -133,19 +165,19 @@ public class PaginaCompraProductosController {
         // 5ta Columna Carrito
         TableColumn<Producto, Button> agregarCarritoColumna = new TableColumn<>("Acción");
         agregarCarritoColumna
-                .setCellValueFactory(cellData -> new SimpleObjectProperty<>(new Button("Agregar al carrito")));
+                .setCellValueFactory(cellData -> new SimpleObjectProperty<>(new Button("Eliminar Producto")));
         agregarCarritoColumna.prefWidthProperty().bind(tablaProductos.widthProperty().divide(4)); // Divide el ancho en
 
         agregarCarritoColumna.setCellFactory(column -> {
             return new TableCell<Producto, Button>() {
-                final Button button = new Button("Agregar al carrito");
+                final Button button = new Button("Eliminar Producto");
 
                 {
                     button.setOnAction(event -> {
                         Producto producto = getTableView().getItems().get(getIndex());
-                        agregarProductoAlCarrito(producto);
+                        handleEliminarProducto(producto);
                     });
-                    button.setStyle("-fx-background-color: lightgreen;"); // Cambiar el color de fondo
+                    button.setStyle("-fx-background-color: lightcoral;"); // Cambiar el color de fondo
                 }
 
                 @Override
@@ -156,6 +188,27 @@ public class PaginaCompraProductosController {
                     } else {
                         setGraphic(button);
                     }
+                }
+
+                private void handleEliminarProducto(Producto producto) {
+                    // Obtener la lista actual de productos de la tabla
+                    ObservableList<Producto> productosEnTabla = tablaProductos.getItems();
+
+                    // Eliminar el producto de la lista
+                    productosEnTabla.remove(producto);
+
+                    // Si deseas eliminarlo también de la lista de productos global, puedes hacerlo
+                    // así:
+                    productos.remove(producto);
+
+                    // Actualizar la tabla
+                    tablaProductos.setItems(productosEnTabla);
+
+                    // Guardo la lista productos en el .json
+                    ProductAndCategoryJSONController.guardarCategoriasYProductosEnJSON(categorias, productosEnTabla);
+
+                    // Mostrar una alerta o realizar cualquier otra acción que necesites
+                    mostrarAlerta("Producto eliminado exitosamente.");
                 }
             };
         });
@@ -195,67 +248,6 @@ public class PaginaCompraProductosController {
         }
     }
 
-    @FXML
-    private void agregarProductoAlCarrito(Producto productoSeleccionado) {
-        if (productoSeleccionado != null) {
-            // Buscar un cliente con el mismo cedulaRUC en la lista de clientes
-            for (Cliente cliente : clientes) {
-                if (cliente.getCedulaRUC().equals(cedulaRUCSession)) {
-                    clienteEncontrado = cliente;
-                    break; // Terminar el bucle una vez que se encuentre un cliente con el mismo cedulaRUC
-                }
-            }
-
-            if (clienteEncontrado != null) {
-                // Agregar el producto seleccionado al carrito
-                carrito.add(productoSeleccionado);
-
-                // Mostrar la alerta
-                mostrarAlerta("Producto agregado al carrito: " + productoSeleccionado.getNombre());
-
-                // Depuración: Imprimir el contenido del carrito
-                System.out.println("Contenido del carrito:");
-                for (Producto producto : carrito) {
-                    System.out.println("ID: " + producto.getId() + ", Nombre: " + producto.getNombre());
-                }
-
-                // Guardar el carrito en el archivo JSON
-                ProductAndCategoryJSONController.guardarCarritoEnJSON(carrito);
-
-            } else {
-                // Si no se encuentra un cliente con el mismo cedulaRUC, mostrar un mensaje de
-                // error o manejar la situación de otra manera.
-                mostrarAlerta("No se encontró un cliente con el cedulaRUC correspondiente.");
-            }
-        }
-    }
-
-    private void guardarPedido() {
-        // Obtiene la fecha actual
-        Calendar calendar = Calendar.getInstance();
-        Date fechaActual = calendar.getTime();
-
-        // Agrega a la lista de pedidos el carrito con la fecha actual
-        Pedido nuevoPedido = new Pedido(1000 + pedidos.size() + Integer.parseInt(cedulaRUCSession),
-                clienteEncontrado.getNombres() + clienteEncontrado.getApellidos(), fechaActual, "En linea",
-                "No cancelado",
-                new DetalleDePedidoCarrito(carrito));
-
-        pedidos.add(nuevoPedido);
-
-        // Guardar la lista de pedidos en el archivo JSON
-        ProductAndCategoryJSONController.guardarPedidos(pedidos);
-
-        // Depuración: Imprimir el contenido de pedidos
-        System.out.println("Contenido de pedidos:");
-        for (Pedido pedido : pedidos) {
-            System.out.println("ID: " + pedido.getIdPedido() + ", Nombre: " + pedido.getCliente());
-        }
-
-        // Vacia carrito
-        carrito = new ArrayList<>(); // Lista para almacenar los productos del carrito
-    }
-
     private void mostrarAlerta(String mensaje) {
         alert = new Alert(AlertType.INFORMATION);
         alert.setTitle("Alerta");
@@ -266,23 +258,10 @@ public class PaginaCompraProductosController {
     }
 
     @FXML
-    void handleCarrito() {
-        guardarPedido();
-        
-        // Establece como pagina root PaginaCarrito
-        try {
-            // Agrega aquí la importación adecuada para App
-            com.example.sistemadeventas.view.App.setRoot("PaginaCarrito");
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.err.println("Error al acceder a PaginaCarrito: " + e.getMessage());
-        }
-    }
-
-    @FXML
     private void handleLogout() {
         try {
-            File carritoFile = new File("sistemadeventas/src/main/java/com/example/sistemadeventas/data/carrito-detalle-pedido.json");
+            File carritoFile = new File(
+                    "sistemadeventas/src/main/java/com/example/sistemadeventas/data/carrito-detalle-pedido.json");
             File sessionFile = new File("sistemadeventas/src/main/java/com/example/sistemadeventas/data/session.json");
             if (sessionFile.exists() && carritoFile.exists()) {
                 carritoFile.delete();
