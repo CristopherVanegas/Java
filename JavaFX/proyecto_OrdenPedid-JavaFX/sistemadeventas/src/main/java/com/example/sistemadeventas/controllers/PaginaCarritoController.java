@@ -14,8 +14,6 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Font;
-import javafx.stage.Stage;
-
 import java.util.Date;
 
 public class PaginaCarritoController {
@@ -72,7 +70,7 @@ public class PaginaCarritoController {
         accionesColumna.setCellFactory(param -> new TableCell<Pedido, Void>() {
             private final Button verCarritoButton = new Button("Ver Carrito");
             private final Button comprarButton = new Button("Comprar");
-            private final Button eliminarPedidoButton = new Button("Eliminar Pedido");
+            private final Button eliminarPedidoButton = new Button("Eliminar");
 
             {
                 // Define los eventos para los botones en cada fila
@@ -89,6 +87,7 @@ public class PaginaCarritoController {
                 eliminarPedidoButton.setOnAction(event -> {
                     Pedido pedido = getTableView().getItems().get(getIndex());
                     // Lógica para "Eliminar Pedido" aquí
+                    handleEliminarPedido();
                 });
             }
 
@@ -122,10 +121,32 @@ public class PaginaCarritoController {
 
         // Enlazar la lista a la tabla
         tablaCarrito.setItems(listaPedidos);
-        
+
+        tablaCarrito.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+
         // Agregar las columnas personalizadas a la tabla
         tablaCarrito.getColumns().addAll(idPedidoColumna, clienteColumna, fechaColumna, formaDeEnvioColumna,
                 estadoDelPedidoColumna, accionesColumna);
+    }
+
+    @FXML
+    private void handleEliminarPedido() {
+        Pedido pedidoSeleccionado = tablaCarrito.getSelectionModel().getSelectedItem();
+        if (pedidoSeleccionado != null) {
+            // Lógica para eliminar el pedido
+            pedidos.remove(pedidoSeleccionado);
+            // Guardar la nueva lista de pedidos
+            ProductAndCategoryJSONController.guardarPedidos(pedidos);
+            // Actualizar la tabla
+            tablaCarrito.getItems().remove(pedidoSeleccionado);
+        } else {
+            // Muestra un mensaje de error o aviso al usuario
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Advertencia");
+            alert.setHeaderText(null);
+            alert.setContentText("Selecciona un pedido para eliminar.");
+            alert.showAndWait();
+        }
     }
 
     private void setFontStyleForTableColumn(TableColumn<?, ?> column) {
@@ -166,17 +187,6 @@ public class PaginaCarritoController {
             }
             System.out.println("------------------------");
         }
-    }
-
-    @FXML
-    private void handleComprar() {
-        // Aquí debes implementar la lógica para cambiar el estado del pedido a
-        // "cancelado"
-        // Por ejemplo, puedes tener una función en tu modelo para actualizar el estado
-        // del pedido
-        // Luego, cierra la ventana actual del carrito
-        Stage stage = (Stage) btnComprar.getScene().getWindow();
-        stage.close();
     }
 
     @FXML
