@@ -7,6 +7,7 @@ import com.example.sistemadeventas.models.DetalleDePedidoCarrito;
 import com.example.sistemadeventas.models.Pedido;
 import com.example.sistemadeventas.models.Producto;
 
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -58,10 +59,30 @@ public class PaginaCarritoController {
         TableColumn<Pedido, Date> fechaColumna = new TableColumn<>("Fecha");
         fechaColumna.setCellValueFactory(new PropertyValueFactory<>("fecha"));
 
+        TableColumn<Pedido, Double> subTotalColumna = new TableColumn<>("Subtotal");
+        subTotalColumna.setCellValueFactory(cellData -> {
+            DetalleDePedidoCarrito detalleCarrito = cellData.getValue().getDetalleDePedidoCarrito();
+            if (detalleCarrito != null) {
+                return new SimpleDoubleProperty(detalleCarrito.getSubtotal()).asObject();
+            } else {
+                return new SimpleDoubleProperty(0.0).asObject();
+            }
+        });
+
+        TableColumn<Pedido, Double> totalColumna = new TableColumn<>("Total");
+        totalColumna.setCellValueFactory(cellData -> {
+            DetalleDePedidoCarrito detalleCarrito = cellData.getValue().getDetalleDePedidoCarrito();
+            if (detalleCarrito != null) {
+                return new SimpleDoubleProperty(detalleCarrito.getTotal()).asObject();
+            } else {
+                return new SimpleDoubleProperty(0.0).asObject();
+            }
+        });
+
         TableColumn<Pedido, String> formaDeEnvioColumna = new TableColumn<>("Forma de Envío");
         formaDeEnvioColumna.setCellValueFactory(new PropertyValueFactory<>("formaDeEnvio"));
 
-        TableColumn<Pedido, String> estadoDelPedidoColumna = new TableColumn<>("Estado del Pedido");
+        TableColumn<Pedido, String> estadoDelPedidoColumna = new TableColumn<>("Estado");
         estadoDelPedidoColumna.setCellValueFactory(new PropertyValueFactory<>("estadoDelPedido"));
 
         TableColumn<Pedido, Void> accionesColumna = new TableColumn<>("Acciones");
@@ -75,20 +96,35 @@ public class PaginaCarritoController {
             {
                 // Define los eventos para los botones en cada fila
                 verCarritoButton.setOnAction(event -> {
-                    Pedido pedido = getTableView().getItems().get(getIndex());
-                    // Lógica para "Ver Carrito" aquí
+                    Pedido pedido = getTableRow().getItem();
+                    if (pedido != null) {
+                        // Lógica para "Ver Carrito" aquí
+                    }
                 });
+                verCarritoButton.setStyle("-fx-background-color: lightblue;"); // Cambiar el color de fondo
 
                 comprarButton.setOnAction(event -> {
-                    Pedido pedido = getTableView().getItems().get(getIndex());
-                    // Lógica para "Comprar" aquí
+                    Pedido pedido = getTableRow().getItem();
+                    if (pedido != null) {
+                        // Cambiar el estado del pedido a "Cancelado"
+                        pedido.setEstadoDelPedido("Cancelado");
+                        // Actualizar la vista de la tabla
+                        tablaCarrito.refresh();
+                        // Aquí puedes guardar los cambios en el archivo JSON si es necesario
+                        ProductAndCategoryJSONController.guardarPedidos(pedidos);
+                    }
                 });
 
+                comprarButton.setStyle("-fx-background-color: lightgreen;"); // Cambiar el color de fondo
+
                 eliminarPedidoButton.setOnAction(event -> {
-                    Pedido pedido = getTableView().getItems().get(getIndex());
-                    // Lógica para "Eliminar Pedido" aquí
-                    handleEliminarPedido();
+                    Pedido pedido = getTableRow().getItem();
+                    if (pedido != null) {
+                        // Lógica para "Eliminar Pedido" aquí
+                        handleEliminarPedido(pedido);
+                    }
                 });
+                eliminarPedidoButton.setStyle("-fx-background-color: lightcoral;"); // Cambiar el color de fondo
             }
 
             @Override
@@ -111,6 +147,8 @@ public class PaginaCarritoController {
         setFontStyleForTableColumn(clienteColumna);
         setFontStyleForTableColumn(fechaColumna);
         setFontStyleForTableColumn(formaDeEnvioColumna);
+        setFontStyleForTableColumn(subTotalColumna);
+        setFontStyleForTableColumn(totalColumna);
         setFontStyleForTableColumn(estadoDelPedidoColumna);
         setFontStyleForTableColumn(accionesColumna);
 
@@ -125,20 +163,25 @@ public class PaginaCarritoController {
         tablaCarrito.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
         // Agregar las columnas personalizadas a la tabla
-        tablaCarrito.getColumns().addAll(idPedidoColumna, clienteColumna, fechaColumna, formaDeEnvioColumna,
-                estadoDelPedidoColumna, accionesColumna);
+        tablaCarrito.getColumns().addAll(
+                idPedidoColumna,
+                clienteColumna,
+                fechaColumna,
+                formaDeEnvioColumna,
+                subTotalColumna, // Usa la columna de subTotal actualizada
+                totalColumna, // Usa la columna de total actualizada
+                estadoDelPedidoColumna,
+                accionesColumna);
     }
 
-    @FXML
-    private void handleEliminarPedido() {
-        Pedido pedidoSeleccionado = tablaCarrito.getSelectionModel().getSelectedItem();
-        if (pedidoSeleccionado != null) {
+    private void handleEliminarPedido(Pedido pedido) {
+        if (pedido != null) {
             // Lógica para eliminar el pedido
-            pedidos.remove(pedidoSeleccionado);
+            pedidos.remove(pedido);
             // Guardar la nueva lista de pedidos
             ProductAndCategoryJSONController.guardarPedidos(pedidos);
             // Actualizar la tabla
-            tablaCarrito.getItems().remove(pedidoSeleccionado);
+            tablaCarrito.getItems().remove(pedido);
         } else {
             // Muestra un mensaje de error o aviso al usuario
             Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -153,40 +196,6 @@ public class PaginaCarritoController {
         // Crear un estilo de fuente y aplicarlo a la columna
         Font font = new Font("Arial", 16);
         column.setStyle("-fx-font-family: '" + font.getFamily() + "'; -fx-font-size: " + font.getSize() + "px;");
-    }
-
-    private void debuggerGetPedidosMessage() {
-        // Imprimir el contenido de pedidos por consola
-        System.out.println("Contenido de pedidos:");
-        for (Pedido pedido : pedidos) {
-            idPedido = pedido.getIdPedido();
-            getCliente = pedido.getCliente();
-            getFecha = pedido.getFecha();
-            getFormaDeEnvio = pedido.getFormaDeEnvio();
-            getEstadoDelPedido = pedido.getEstadoDelPedido();
-
-            System.out.println("ID: " + idPedido);
-            System.out.println("Cliente: " + getCliente);
-            System.out.println("Fecha: " + getFecha);
-            System.out.println("Forma de Envío: " + getFormaDeEnvio);
-            System.out.println("Estado del Pedido: " + getEstadoDelPedido);
-            System.out.println("Detalle del Pedido:");
-            DetalleDePedidoCarrito detalle = pedido.getDetalleDePedidoCarrito();
-            System.out.println("Detalle del Pedido:");
-            List<Producto> productos = detalle.getProductos();
-            for (Producto producto : productos) {
-                System.out.println("ID del Producto: " + producto.getId());
-                System.out.println("Nombre del Producto: " + producto.getNombre());
-                System.out.println("Precio del Producto: " + producto.getPrecio());
-                System.out.println("Categoría del Producto: " + producto.getCategoria().getNombre()); // Si tienes una
-                                                                                                      // propiedad
-                                                                                                      // "nombre" en la
-                                                                                                      // clase Categoria
-                // Agrega aquí cualquier otra propiedad del producto que desees mostrar
-                System.out.println("------------------------");
-            }
-            System.out.println("------------------------");
-        }
     }
 
     @FXML

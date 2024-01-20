@@ -4,7 +4,7 @@ import java.util.List;
 
 public class DetalleDePedidoCarrito {
     private List<Producto> productos;
-    private double precio;
+    private double total;
     private double subtotal;
 
     public DetalleDePedidoCarrito() {
@@ -14,7 +14,10 @@ public class DetalleDePedidoCarrito {
     // Agregar un constructor que se adapte a la creación de un nuevo DetalleDePedidoCarrito
     public DetalleDePedidoCarrito(List<Producto> carrito) {
         this.productos = carrito;
-        this.precio = precio;
+
+        calcularSubtotal();
+        calcularTotal();
+        this.total = total;
         this.subtotal = subtotal;
     }
 
@@ -27,12 +30,12 @@ public class DetalleDePedidoCarrito {
         this.productos = productos;
     }
 
-    public double getPrecio() {
-        return precio;
+    public double getTotal() {
+        return total;
     }
 
-    public void setPrecio(double precio) {
-        this.precio = precio;
+    public void setTotal(double total) {
+        this.total = total;
     }
 
     public double getSubtotal() {
@@ -41,5 +44,17 @@ public class DetalleDePedidoCarrito {
 
     public void setSubtotal(double subtotal) {
         this.subtotal = subtotal;
+    }
+
+    // Method to calculate total and subTotal
+    public void calcularSubtotal() {
+        subtotal = 0.0;
+        for (Producto producto : productos) {
+            subtotal += producto.getPrecio();
+        }
+    }
+
+    public void calcularTotal() {
+        total = subtotal; // Puedes agregar lógica adicional aquí si es necesario
     }
 }

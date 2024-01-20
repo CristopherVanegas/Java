@@ -1,1 +1,14 @@
-[{"id":null,"cedulaRUC":"111","nombres":"111","apellidos":"111","correo":"111","direccion":"111","telefono":"111","codigoCliente":"111_0.5877762629724533","listaPedidos":[],"numeroCompras":0}]
+[
+    {
+        "id": null,
+        "cedulaRUC": "111",
+        "nombres": "111",
+        "apellidos": "111",
+        "correo": "111",
+        "direccion": "111",
+        "telefono": "111",
+        "codigoCliente": "111_0.5877762629724533",
+        "listaPedidos": [],
+        "numeroCompras": 0
+    }
+]

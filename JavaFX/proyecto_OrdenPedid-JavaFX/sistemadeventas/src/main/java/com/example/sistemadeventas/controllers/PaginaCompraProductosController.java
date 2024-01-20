@@ -254,6 +254,7 @@ public class PaginaCompraProductosController {
 
         // Vacia carrito
         carrito = new ArrayList<>(); // Lista para almacenar los productos del carrito
+        ProductAndCategoryJSONController.guardarCarritoEnJSON(carrito);
     }
 
     private void mostrarAlerta(String mensaje) {
