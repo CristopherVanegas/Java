@@ -5,9 +5,12 @@ import com.example.sistemadeventas.models.Producto;
 import com.example.sistemadeventas.view.App;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.stage.FileChooser;
+import java.io.File;
 
 import java.io.IOException;
 import java.util.List;
@@ -30,6 +33,24 @@ public class RegistroProductoController {
 
     @FXML
     private Label errorLabel;
+
+    @FXML
+    private Button seleccionarImagenButton; // Asegúrate de que el ID del botón coincida con el del FXML
+
+    @FXML
+    private void handleSelectImage() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("Imágenes", "*.jpg", "*.png", "*.jpeg"),
+                new FileChooser.ExtensionFilter("Todos los archivos", "*.*"));
+
+        File selectedFile = fileChooser.showOpenDialog(null); // Abre el diálogo de selección de archivo
+
+        if (selectedFile != null) {
+            // Obtiene la ruta del archivo seleccionado y la muestra en el campo de texto
+            imagenPathField.setText(selectedFile.getAbsolutePath());
+        }
+    }
 
     @FXML
     private void initialize() {

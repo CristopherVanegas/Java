@@ -12,6 +12,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.HBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
@@ -34,6 +35,8 @@ public class PaginaCarritoController {
     private TableColumn<Pedido, String> formaDeEnvioColumna;
     @FXML
     private TableColumn<Pedido, String> estadoDelPedidoColumna;
+    @FXML
+    private TableColumn<Pedido, Void> accionesColumna;
 
     private List<Pedido> pedidos;
     int idPedido;
@@ -63,16 +66,54 @@ public class PaginaCarritoController {
         TableColumn<Pedido, String> estadoDelPedidoColumna = new TableColumn<>("Estado del Pedido");
         estadoDelPedidoColumna.setCellValueFactory(new PropertyValueFactory<>("estadoDelPedido"));
 
+        TableColumn<Pedido, Void> accionesColumna = new TableColumn<>("Acciones");
+
+        // Crear una celda de fábrica personalizada para la columna de acciones
+        accionesColumna.setCellFactory(param -> new TableCell<Pedido, Void>() {
+            private final Button verCarritoButton = new Button("Ver Carrito");
+            private final Button comprarButton = new Button("Comprar");
+            private final Button eliminarPedidoButton = new Button("Eliminar Pedido");
+
+            {
+                // Define los eventos para los botones en cada fila
+                verCarritoButton.setOnAction(event -> {
+                    Pedido pedido = getTableView().getItems().get(getIndex());
+                    // Lógica para "Ver Carrito" aquí
+                });
+
+                comprarButton.setOnAction(event -> {
+                    Pedido pedido = getTableView().getItems().get(getIndex());
+                    // Lógica para "Comprar" aquí
+                });
+
+                eliminarPedidoButton.setOnAction(event -> {
+                    Pedido pedido = getTableView().getItems().get(getIndex());
+                    // Lógica para "Eliminar Pedido" aquí
+                });
+            }
+
+            @Override
+            protected void updateItem(Void item, boolean empty) {
+                super.updateItem(item, empty);
+
+                if (empty) {
+                    setGraphic(null);
+                } else {
+                    // Agregar los botones a la celda de la fila actual
+                    HBox buttonsBox = new HBox(verCarritoButton, comprarButton, eliminarPedidoButton);
+                    buttonsBox.setSpacing(5);
+                    setGraphic(buttonsBox);
+                }
+            }
+        });
+
         // Establecer estilo de fuente para las celdas
         setFontStyleForTableColumn(idPedidoColumna);
         setFontStyleForTableColumn(clienteColumna);
         setFontStyleForTableColumn(fechaColumna);
         setFontStyleForTableColumn(formaDeEnvioColumna);
         setFontStyleForTableColumn(estadoDelPedidoColumna);
-
-        // Agregar las columnas personalizadas a la tabla
-        tablaCarrito.getColumns().addAll(idPedidoColumna, clienteColumna, fechaColumna, formaDeEnvioColumna,
-                estadoDelPedidoColumna);
+        setFontStyleForTableColumn(accionesColumna);
 
         // Cargar los datos de los pedidos desde tu controlador de JSON o donde los
         // tengas
@@ -81,6 +122,10 @@ public class PaginaCarritoController {
 
         // Enlazar la lista a la tabla
         tablaCarrito.setItems(listaPedidos);
+        
+        // Agregar las columnas personalizadas a la tabla
+        tablaCarrito.getColumns().addAll(idPedidoColumna, clienteColumna, fechaColumna, formaDeEnvioColumna,
+                estadoDelPedidoColumna, accionesColumna);
     }
 
     private void setFontStyleForTableColumn(TableColumn<?, ?> column) {

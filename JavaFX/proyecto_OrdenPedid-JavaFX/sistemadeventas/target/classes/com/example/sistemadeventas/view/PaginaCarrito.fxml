@@ -48,6 +48,11 @@
                         <PropertyValueFactory property="estadoDelPedido" />
                     </cellValueFactory>
                 </TableColumn>
+                <TableColumn text="Acciones" fx:id="accionesColumna">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="acciones" />
+                    </cellValueFactory>
+                </TableColumn>
             </TableView>
         </AnchorPane>
     </center>
