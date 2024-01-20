@@ -5,8 +5,6 @@ import java.util.List;
 
 import com.example.sistemadeventas.models.DetalleDePedidoCarrito;
 import com.example.sistemadeventas.models.Pedido;
-import com.example.sistemadeventas.models.Producto;
-
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -107,7 +105,14 @@ public class PaginaCarritoController {
                 verCarritoButton.setOnAction(event -> {
                     Pedido pedido = getTableRow().getItem();
                     if (pedido != null) {
-                        // Lógica para "Ver Carrito" aquí
+                        // Establece como pagina root PaginaCarrito
+                        try {
+                            // Agrega aquí la importación adecuada para App
+                            com.example.sistemadeventas.view.App.setRoot("detalle_carrito");
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                            System.err.println("Error al acceder a detalle_carrito: " + e.getMessage());
+                        }
                     }
                 });
                 verCarritoButton.setStyle("-fx-background-color: lightblue;"); // Cambiar el color de fondo
