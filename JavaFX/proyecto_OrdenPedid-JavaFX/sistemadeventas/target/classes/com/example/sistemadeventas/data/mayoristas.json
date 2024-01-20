@@ -1,46 +1,13 @@
 [
     {
-        "cedulaRUC": "17",
-        "nombres": "17",
-        "apellidos": "17",
-        "correo": "17",
-        "direccion": "17",
-        "telefono": "17",
-        "codigoCliente": "17_0.7069723479052291",
-        "listaPedidos": null,
-        "personaContacto": "Persona de Contacto"
-    },
-    {
-        "cedulaRUC": "3",
-        "nombres": "3",
-        "apellidos": "3",
-        "correo": "3",
-        "direccion": "3",
-        "telefono": "3",
-        "codigoCliente": "3_0.7837065180494741",
-        "listaPedidos": null,
-        "personaContacto": "Persona de Contacto"
-    },
-    {
-        "cedulaRUC": "1515",
-        "nombres": "1515",
-        "apellidos": "1515",
-        "correo": "1515",
-        "direccion": "1515",
-        "telefono": "1515",
-        "codigoCliente": "1515_0.7969747546153149",
-        "listaPedidos": null,
-        "personaContacto": "Persona de Contacto"
-    },
-    {
-        "cedulaRUC": "0957526353",
-        "nombres": "Valeria Denisse",
-        "apellidos": "Galarza Salvatierra",
-        "correo": "vgalarza@est.ecotec.edu.ec",
-        "direccion": "Km11.5 Via a la Costa",
-        "telefono": "+593 99 861 4135",
-        "codigoCliente": "0957526353_0.8384921764602401",
-        "listaPedidos": null,
+        "cedulaRUC": "ADMIN",
+        "nombres": "ADMIN",
+        "apellidos": "ADMIN",
+        "correo": "admin@admin.com",
+        "direccion": "ADMIN",
+        "telefono": "111 111 1111",
+        "codigoCliente": "ADMIN_0.47454678748878343",
+        "listaPedidos": [],
         "personaContacto": "Persona de Contacto"
     },
     {
@@ -50,18 +17,7 @@
         "correo": "11",
         "direccion": "11",
         "telefono": "11",
-        "codigoCliente": "11_0.9435454864171486",
-        "listaPedidos": [],
-        "personaContacto": "Persona de Contacto"
-    },
-    {
-        "cedulaRUC": "12345",
-        "nombres": "12345",
-        "apellidos": "12345",
-        "correo": "12345",
-        "direccion": "12345",
-        "telefono": "12345",
-        "codigoCliente": "12345_0.6986861065462578",
+        "codigoCliente": "11_0.4915314431400386",
         "listaPedidos": [],
         "personaContacto": "Persona de Contacto"
     }
