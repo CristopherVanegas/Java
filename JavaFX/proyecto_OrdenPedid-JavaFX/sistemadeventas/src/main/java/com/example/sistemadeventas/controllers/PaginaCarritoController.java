@@ -11,6 +11,7 @@ import javafx.beans.property.SimpleDoubleProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
@@ -52,12 +53,15 @@ public class PaginaCarritoController {
         // Crear las columnas personalizadas
         TableColumn<Pedido, String> idPedidoColumna = new TableColumn<>("ID Pedido");
         idPedidoColumna.setCellValueFactory(new PropertyValueFactory<>("idPedido"));
+        idPedidoColumna.setMinWidth(100); // Establece el ancho mínimo deseado
 
         TableColumn<Pedido, String> clienteColumna = new TableColumn<>("Cliente");
         clienteColumna.setCellValueFactory(new PropertyValueFactory<>("cliente"));
+        clienteColumna.setMinWidth(150); // Establece el ancho mínimo deseado
 
         TableColumn<Pedido, Date> fechaColumna = new TableColumn<>("Fecha");
         fechaColumna.setCellValueFactory(new PropertyValueFactory<>("fecha"));
+        fechaColumna.setMinWidth(150); // Establece el ancho mínimo deseado
 
         TableColumn<Pedido, Double> subTotalColumna = new TableColumn<>("Subtotal");
         subTotalColumna.setCellValueFactory(cellData -> {
@@ -68,6 +72,7 @@ public class PaginaCarritoController {
                 return new SimpleDoubleProperty(0.0).asObject();
             }
         });
+        subTotalColumna.setMinWidth(100); // Establece el ancho mínimo deseado
 
         TableColumn<Pedido, Double> totalColumna = new TableColumn<>("Total");
         totalColumna.setCellValueFactory(cellData -> {
@@ -78,14 +83,18 @@ public class PaginaCarritoController {
                 return new SimpleDoubleProperty(0.0).asObject();
             }
         });
+        totalColumna.setMinWidth(100); // Establece el ancho mínimo deseado
 
         TableColumn<Pedido, String> formaDeEnvioColumna = new TableColumn<>("Forma de Envío");
         formaDeEnvioColumna.setCellValueFactory(new PropertyValueFactory<>("formaDeEnvio"));
+        formaDeEnvioColumna.setMinWidth(150); // Establece el ancho mínimo deseado
 
         TableColumn<Pedido, String> estadoDelPedidoColumna = new TableColumn<>("Estado");
         estadoDelPedidoColumna.setCellValueFactory(new PropertyValueFactory<>("estadoDelPedido"));
+        estadoDelPedidoColumna.setMinWidth(100); // Establece el ancho mínimo deseado
 
         TableColumn<Pedido, Void> accionesColumna = new TableColumn<>("Acciones");
+        accionesColumna.setMinWidth(250); // Establece el ancho mínimo deseado
 
         // Crear una celda de fábrica personalizada para la columna de acciones
         accionesColumna.setCellFactory(param -> new TableCell<Pedido, Void>() {
@@ -137,6 +146,7 @@ public class PaginaCarritoController {
                     // Agregar los botones a la celda de la fila actual
                     HBox buttonsBox = new HBox(verCarritoButton, comprarButton, eliminarPedidoButton);
                     buttonsBox.setSpacing(5);
+                    buttonsBox.setAlignment(Pos.CENTER); // Centra el contenido horizontalmente
                     setGraphic(buttonsBox);
                 }
             }

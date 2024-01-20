@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import com.example.sistemadeventas.controllers.PaginaCarritoController?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.example.sistemadeventas.controllers.PaginaCarritoController">
+    <children>
+        <TableView fx:id="tablaProductos" layoutX="25.0" layoutY="25.0" prefHeight="350.0" prefWidth="550.0">
+            <columns>
+                <TableColumn fx:id="idColumna" text="ID" />
+                <TableColumn fx:id="nombreColumna" text="Nombre" />
+                <TableColumn fx:id="precioColumna" text="Precio" />
+            </columns>
+        </TableView>
+    </children>
+</BorderPane>
