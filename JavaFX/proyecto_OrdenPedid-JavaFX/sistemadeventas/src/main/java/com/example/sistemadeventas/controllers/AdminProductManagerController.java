@@ -202,7 +202,7 @@ public class AdminProductManagerController {
             tablaProductos.setItems(FXCollections.observableArrayList(productos));
         } else {
             List<Producto> productosFiltrados = productos.stream()
-                    .filter(producto -> producto.getCategoria().equals(categoriaSeleccionada))
+                    .filter(producto -> producto.getCategoria().getId() == categoriaSeleccionada.getId())
                     .collect(Collectors.toList());
             tablaProductos.setItems(FXCollections.observableArrayList(productosFiltrados));
         }

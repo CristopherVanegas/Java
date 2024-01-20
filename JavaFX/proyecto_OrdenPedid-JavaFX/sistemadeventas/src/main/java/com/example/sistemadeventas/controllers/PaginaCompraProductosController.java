@@ -189,7 +189,7 @@ public class PaginaCompraProductosController {
             tablaProductos.setItems(FXCollections.observableArrayList(productos));
         } else {
             List<Producto> productosFiltrados = productos.stream()
-                    .filter(producto -> producto.getCategoria().equals(categoriaSeleccionada))
+                    .filter(producto -> producto.getCategoria().getId() == categoriaSeleccionada.getId())
                     .collect(Collectors.toList());
             tablaProductos.setItems(FXCollections.observableArrayList(productosFiltrados));
         }
@@ -268,7 +268,7 @@ public class PaginaCompraProductosController {
     @FXML
     void handleCarrito() {
         guardarPedido();
-        
+
         // Establece como pagina root PaginaCarrito
         try {
             // Agrega aquí la importación adecuada para App
@@ -282,7 +282,8 @@ public class PaginaCompraProductosController {
     @FXML
     private void handleLogout() {
         try {
-            File carritoFile = new File("sistemadeventas/src/main/java/com/example/sistemadeventas/data/carrito-detalle-pedido.json");
+            File carritoFile = new File(
+                    "sistemadeventas/src/main/java/com/example/sistemadeventas/data/carrito-detalle-pedido.json");
             File sessionFile = new File("sistemadeventas/src/main/java/com/example/sistemadeventas/data/session.json");
             if (sessionFile.exists() && carritoFile.exists()) {
                 carritoFile.delete();
