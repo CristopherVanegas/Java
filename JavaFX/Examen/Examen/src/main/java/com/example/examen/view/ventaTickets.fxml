@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.example.examen.controller.VentaTicketsController">
+   <children>
+      <HBox layoutX="23.0" layoutY="21.0" prefHeight="37.0" prefWidth="561.0">
+         <children>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="CinePlus S.A.">
+               <font>
+                  <Font name="System Bold" size="11.0" />
+               </font>
+            </Text>
+         </children>
+      </HBox>
+      <HBox alignment="CENTER" layoutX="200.0" layoutY="40.0" prefHeight="37.0" prefWidth="200.0">
+         <children>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="VENTA DE TICKETS" textAlignment="CENTER">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Text>
+         </children>
+      </HBox>
+      <HBox layoutX="44.0" layoutY="77.0" prefHeight="17.0" prefWidth="207.0">
+         <children>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Numero: " />
+            <Text fx:id="txtNumero" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+         </children>
+      </HBox>
+      <HBox layoutX="350.0" layoutY="77.0" prefHeight="17.0" prefWidth="200.0">
+         <children>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Fecha: " />
+            <Text fx:id="txtFecha" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+         </children>
+      </HBox>
+      <VBox layoutX="63.0" layoutY="100.0" prefHeight="200.0" prefWidth="481.0">
+         <children>
+            <HBox prefHeight="18.0" prefWidth="481.0">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Cliente" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="53.0" prefWidth="481.0">
+               <children>
+                  <TextField prefHeight="25.0" prefWidth="87.0">
+                     <HBox.margin>
+                        <Insets left="16.0" />
+                     </HBox.margin>
+                  </TextField>
+                  <Button fx:id="btnBuscar" mnemonicParsing="false" text="Buscar">
+                     <HBox.margin>
+                        <Insets left="16.0" right="16.0" />
+                     </HBox.margin>
+                  </Button>
+                     <TextField fx:id="txtCedula" text="cedula">
+                     <HBox.margin>
+                        <Insets left="16.0" right="16.0" />
+                     </HBox.margin>
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </TextField>
+                  <TextField fx:id="txtFullname" strokeType="OUTSIDE" strokeWidth="0.0" text="nombre completo">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="16.0" right="16.0" />
+                     </HBox.margin>
+                  </TextField>
+               </children>
+            </HBox>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Pelicula" />
+            <VBox prefHeight="125.0" prefWidth="377.0">
+               <children>
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Pelicula" />
+                        <ComboBox prefHeight="25.0" prefWidth="352.0">
+                           <HBox.margin>
+                              <Insets left="8.0" />
+                           </HBox.margin>
+                        </ComboBox>
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Sala: " />
+                        <TextField fx:id="edtSala">
+                           <HBox.margin>
+                              <Insets left="8.0" />
+                           </HBox.margin>
+                        </TextField>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Precio: ">
+                           <HBox.margin>
+                              <Insets left="16.0" />
+                           </HBox.margin>
+                        </Text>
+                        <TextField fx:id="edtPrecio">
+                           <HBox.margin>
+                              <Insets left="8.0" />
+                           </HBox.margin>
+                        </TextField>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+         </children>
+      </VBox>
+      <HBox layoutX="90.0" layoutY="300.0" prefHeight="60.0" prefWidth="428.0">
+         <children>
+            <HBox>
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Asientos: " />
+                  <TextField fx:id="edtAsientos" />
+               </children>
+            </HBox>
+            <VBox prefHeight="60.0" prefWidth="217.0">
+               <children>
+                  <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Subtotal: " />
+                        <TextField fx:id="txtSubtotal" strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+                           <HBox.margin>
+                              <Insets left="8.0" />
+                           </HBox.margin>
+                        </TextField>
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="I.V.A.: " />
+                        <TextField fx:id="txtIVA" strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+                           <HBox.margin>
+                              <Insets left="26.0" />
+                           </HBox.margin>
+                        </TextField>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
+                           <children>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Total: " />
+                              <TextField fx:id="txtTotal" strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+                                 <HBox.margin>
+                                    <Insets left="25.0" />
+                                 </HBox.margin>
+                              </TextField>
+                           </children>
+                        </HBox>
+                     </children>
+                  </HBox>
+               </children>
+               <HBox.margin>
+                  <Insets left="12.0" />
+               </HBox.margin>
+            </VBox>
+         </children>
+      </HBox>
+   </children>
+</AnchorPane>
