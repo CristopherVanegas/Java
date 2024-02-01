@@ -30,10 +30,16 @@
             <Text fx:id="fechaActualText" strokeType="OUTSIDE" strokeWidth="0.0" text="Fecha Actual" />
          </children>
       </HBox>
-      <HBox alignment="TOP_CENTER" layoutX="116.0" layoutY="48.0" prefHeight="25.0" prefWidth="368.0">
+      <HBox alignment="CENTER" layoutX="116.0" layoutY="48.0" prefHeight="25.0" prefWidth="368.0">
          <children>
-            <TextField fx:id="codigoClienteTextField" promptText="codigo cliente" />
-            <Button fx:id="consultarClienteButton" mnemonicParsing="false" text="Consultar cliente" />
+            <TextField fx:id="codigoClienteTextField" promptText="codigo cliente">
+               <HBox.margin>
+                  <Insets right="16.0" />
+               </HBox.margin></TextField>
+            <Button fx:id="consultarClienteButton" mnemonicParsing="false" onMouseClicked="#consultarCliente" text="Consultar cliente">
+               <HBox.margin>
+                  <Insets right="16.0" />
+               </HBox.margin></Button>
             <Text fx:id="clienteText" strokeType="OUTSIDE" strokeWidth="0.0" text="cliente" />
          </children>
       </HBox>
@@ -49,8 +55,14 @@
             </Text>
             <HBox alignment="CENTER" prefHeight="26.0" prefWidth="339.0">
                <children>
-                  <TextField fx:id="codigoLibroTextField" promptText="codigo libro" />
-                  <Button fx:id="consultarLibroButton" mnemonicParsing="false" text="Consultar libro" />
+                  <TextField fx:id="codigoLibroTextField" promptText="codigo libro">
+                     <HBox.margin>
+                        <Insets right="8.0" />
+                     </HBox.margin></TextField>
+                  <Button fx:id="consultarLibroButton" mnemonicParsing="false" onMouseClicked="#consultarLibro" text="Consultar libro">
+                     <HBox.margin>
+                        <Insets right="8.0" />
+                     </HBox.margin></Button>
                   <Text fx:id="nombresText" strokeType="OUTSIDE" strokeWidth="0.0" text="Nombres" />
                </children>
                <VBox.margin>
@@ -59,7 +71,10 @@
             </HBox>
             <HBox prefHeight="17.0" prefWidth="339.0">
                <children>
-                  <Text fx:id="numeroPaginasText" strokeType="OUTSIDE" strokeWidth="0.0" text="Numero Paginas" />
+                  <Text fx:id="numeroPaginasText" strokeType="OUTSIDE" strokeWidth="0.0" text="Numero Paginas">
+                     <HBox.margin>
+                        <Insets right="16.0" />
+                     </HBox.margin></Text>
                   <Text fx:id="costoText" strokeType="OUTSIDE" strokeWidth="0.0" text="Costo" />
                </children>
                <VBox.margin>
@@ -68,9 +83,15 @@
             </HBox>
             <HBox alignment="CENTER_LEFT" prefHeight="20.0" prefWidth="339.0">
                <children>
-                  <Text fx:id="codigoText" strokeType="OUTSIDE" strokeWidth="0.0" text="Codigo" />
-                  <Text fx:id="autorText" strokeType="OUTSIDE" strokeWidth="0.0" text="Author" />
-                  <Button fx:id="agregarLibroButton" mnemonicParsing="false" text="Agregar Libro a Prestamos" />
+                  <Text fx:id="codigoText" strokeType="OUTSIDE" strokeWidth="0.0" text="Codigo">
+                     <HBox.margin>
+                        <Insets right="16.0" />
+                     </HBox.margin></Text>
+                  <Text fx:id="autorText" strokeType="OUTSIDE" strokeWidth="0.0" text="Author">
+                     <HBox.margin>
+                        <Insets right="16.0" />
+                     </HBox.margin></Text>
+                  <Button fx:id="agregarLibroButton" mnemonicParsing="false" onMouseClicked="#agregarLibro" text="Agregar Libro a Prestamos" />
                </children>
             </HBox>
             <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0">
@@ -99,8 +120,7 @@
                         </HBox>
                         <HBox prefHeight="100.0" prefWidth="200.0">
                            <children>
-                              <Text fx:id="totalPagarText" strokeType="OUTSIDE" strokeWidth="0.0" text="Total a Pagar: " />
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+                              <Text id="totalPagarText" fx:id="totalPagarText" strokeType="OUTSIDE" strokeWidth="0.0" text="Total a Pagar: " />
                            </children>
                         </HBox>
                      </children>
